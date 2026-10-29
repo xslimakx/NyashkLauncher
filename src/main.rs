@@ -400,7 +400,7 @@ fn main() -> eframe::Result {
     let options = eframe::NativeOptions {
         viewport: egui::ViewportBuilder::default()
             .with_title("Nyashk Launcher")
-            .with_inner_size([1120.0, 720.0])
+            .with_inner_size(start_size())
             .with_min_inner_size([980.0, 560.0])
             .with_icon(window_icon()),
         ..Default::default()
@@ -413,4 +413,15 @@ pub const ICON_PNG: &[u8] = include_bytes!("../assets/icon.png");
 fn window_icon() -> egui::IconData {
     let img = image::load_from_memory(ICON_PNG).expect("icon").to_rgba8();
     egui::IconData { width: img.width(), height: img.height(), rgba: img.into_raw() }
+}
+
+/// Default window size; `NYASHK_SIZE=WxH` is a dev hook used for documentation screenshots.
+fn start_size() -> [f32; 2] {
+    std::env::var("NYASHK_SIZE")
+        .ok()
+        .and_then(|v| {
+            let (w, h) = v.split_once('x')?;
+            Some([w.parse().ok()?, h.parse().ok()?])
+        })
+        .unwrap_or([1120.0, 720.0])
 }
