@@ -1,0 +1,339 @@
+//! Plugin registry, settings, installed-version records and version helpers.
+
+use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
+use std::path::{Path, PathBuf};
+
+#[derive(Clone, Copy, PartialEq, Eq)]
+pub enum Category {
+    Instrument,
+    Effect,
+    Tool,
+}
+
+impl Category {
+    pub const ALL: [Category; 3] = [Category::Instrument, Category::Effect, Category::Tool];
+    pub fn label(self) -> &'static str {
+        match self {
+            Category::Instrument => "Instruments",
+            Category::Effect => "Effects",
+            Category::Tool => "Vocal tools",
+        }
+    }
+}
+
+pub const LAUNCHER_REPO: &str = "xslimakx/NyashkLauncher";
+
+pub struct Shot {
+    pub caption: &'static str,
+    pub data: &'static [u8],
+}
+
+pub struct PluginDef {
+    pub id: &'static str,
+    pub name: &'static str,
+    pub repo: &'static str,
+    pub bundle: &'static str,
+    pub category: Category,
+    pub tagline: &'static str,
+    pub description: &'static str,
+    pub tags: &'static [&'static str],
+    pub long: &'static str,
+    pub features: &'static [&'static str],
+    pub shots: &'static [Shot],
+}
+
+/// To add another plugin to the launcher, add one entry here.
+pub const PLUGINS: &[PluginDef] = &[
+    PluginDef {
+        id: "synth",
+        name: "NyashkSynth",
+        repo: "xslimakx/NyashkSynth",
+        bundle: "NyashkSynth.vst3",
+        category: Category::Instrument,
+        tagline: "Wavetable synthesizer",
+        description: "Serum-style wavetable synth: 3 oscillators with wavetable, sample, granular, \
+                      multisample and spectral modes, two filters, mod matrix, effect rack and 146 factory presets.",
+        tags: &["VST3", "Synth", "Wavetable"],
+        long: "A wavetable synthesizer in the monochrome Nyashk design. Three oscillators, each a wavetable, sample, granular, multisample or spectral source, run through two filters, a 16-slot mod matrix and a two-bus effect rack. Includes a wavetable editor, 146 factory presets and a powerful arpeggiator and clip sequencer.",
+        features: &[
+            "3 oscillators: wavetable, sample, granular, multisample (.sfz) and spectral, with 22 warp modes and unison up to 16 voices",
+            "Wavetable editor: draw, harmonics, formulas, multi-frame editing, morphing, import / export of .wav tables",
+            "Two filters (series or parallel) with 16 types plus a custom point filter drawn on the response graph",
+            "4 envelopes and 8 LFOs, including real-time Lorenz / Rössler chaos; mod matrix with 33 sources and 16 slots",
+            "Effect rack: up to 10 effects per bus, any order, two buses with several routings",
+            "Arpeggiator with a 16-step pattern editor, clip sequencer with capture, MIDI out, key lock",
+            "146 factory presets with categories, tags, favourites, ratings, HYBRID and RANDOM",
+            "MIDI learn on every knob, Poly / Mono / Legato, undo / redo, drag and drop of tables and presets",
+        ],
+        shots: &[
+            Shot { caption: "Overview", data: include_bytes!("../assets/synth_1.jpg") },
+            Shot { caption: "Wavetable editor", data: include_bytes!("../assets/synth_2.jpg") },
+            Shot { caption: "Mod matrix", data: include_bytes!("../assets/synth_3.jpg") },
+            Shot { caption: "Effect rack", data: include_bytes!("../assets/synth_4.jpg") },
+            Shot { caption: "Custom point filter", data: include_bytes!("../assets/synth_5.jpg") },
+            Shot { caption: "Preset browser", data: include_bytes!("../assets/synth_6.jpg") },
+        ],
+    },
+    PluginDef {
+        id: "opto",
+        name: "NyashkOpto",
+        repo: "xslimakx/NyashkOpto",
+        bundle: "NyashkOpto.vst3",
+        category: Category::Effect,
+        tagline: "Optical compressor",
+        description: "LA-2A style optical compressor with program-dependent attack, two-stage release, \
+                      compress / limit modes and analog hum + saturation.",
+        tags: &["VST3", "Compressor", "Dynamics"],
+        long: "A model of an optical (opto-cell) compressor in the spirit of the LA-2A. Attack is program-dependent and release is two-stage with memory, so it breathes like the hardware. Simple to use: Peak Reduction and Gain do most of the work.",
+        features: &[
+            "Peak Reduction: amount of compression; Gain: output level",
+            "COMPRESS or LIMIT mode",
+            "Hi Freq (HF Follow): emphasis in the sidechain to tame sibilance",
+            "ANALOG: OFF / 50 Hz / 60 Hz soft saturation with mains hum, like real hardware",
+            "Mix for parallel compression, Auto Makeup and Trim",
+            "VU meter with INPUT, GR and OUTPUT views",
+            "Transparent at Peak Reduction 0, click-free bypass",
+        ],
+        shots: &[
+            Shot { caption: "Overview", data: include_bytes!("../assets/opto_1.jpg") },
+        ],
+    },
+    PluginDef {
+        id: "tune",
+        name: "NyashkTune",
+        repo: "xslimakx/NyashkTune",
+        bundle: "NyashkTune.vst3",
+        category: Category::Tool,
+        tagline: "Realtime pitch correction",
+        description: "Autotune from transparent natural correction to the hard T-Pain effect, with formant \
+                      control, voices and a preset browser.",
+        tags: &["VST3", "Autotune", "Vocal"],
+        long: "Realtime vocal pitch correction, from transparent natural tuning to the hard T-Pain effect. YIN pitch detection with PSOLA resynthesis, 16 scales plus a custom one, formant control, harmony voices and a preset browser.",
+        features: &[
+            "YIN pitch detection with continuity tracking (no octave jumps), PSOLA resynthesis, mono and stereo",
+            "16 scales plus Custom, key and reference A4; per-note BYPASS for blue notes and slides",
+            "Retune Speed from natural to hard, Flex-Tune, Humanize, Natural Vibrato, synthetic vibrato with four shapes",
+            "MIDI Target: tune to the notes you play",
+            "Transpose, Detune and Formant Shift with 5 algorithms",
+            "2 extra voices (harmony, octave, double) with interval, pan, detune and delay",
+            "Air and Drive colour, voice ranges from Bass to Soprano",
+            "28 presets (including Anime Vocal) and your own saved presets",
+        ],
+        shots: &[
+            Shot { caption: "Tune", data: include_bytes!("../assets/tune_1.jpg") },
+            Shot { caption: "Formant", data: include_bytes!("../assets/tune_2.jpg") },
+            Shot { caption: "Voices", data: include_bytes!("../assets/tune_3.jpg") },
+            Shot { caption: "Preset browser", data: include_bytes!("../assets/tune_4.jpg") },
+        ],
+    },
+];
+
+// ---------------------------------------------------------------- platform
+
+#[derive(Clone, Copy, PartialEq, Eq)]
+pub enum Os {
+    Linux,
+    Windows,
+    MacOs,
+}
+
+pub const OS: Os = if cfg!(target_os = "windows") {
+    Os::Windows
+} else if cfg!(target_os = "macos") {
+    Os::MacOs
+} else {
+    Os::Linux
+};
+
+impl Os {
+    pub fn name(self) -> &'static str {
+        match self {
+            Os::Linux => "Linux",
+            Os::Windows => "Windows",
+            Os::MacOs => "macOS",
+        }
+    }
+    /// Does a release asset file name belong to this platform?
+    pub fn matches_asset(self, name: &str) -> bool {
+        let n = name.to_ascii_lowercase();
+        if !n.ends_with(".zip") || n.contains("source") {
+            return false;
+        }
+        match self {
+            Os::Linux => n.contains("linux"),
+            Os::Windows => n.contains("windows") || n.contains("-win"),
+            Os::MacOs => n.contains("macos") || n.contains("mac"),
+        }
+    }
+}
+
+pub fn default_install_dir() -> PathBuf {
+    match OS {
+        Os::Windows => {
+            let base = std::env::var_os("COMMONPROGRAMFILES")
+                .map(PathBuf::from)
+                .unwrap_or_else(|| PathBuf::from(r"C:\Program Files\Common Files"));
+            base.join("VST3")
+        }
+        Os::MacOs => dirs::home_dir().unwrap_or_default().join("Library/Audio/Plug-Ins/VST3"),
+        Os::Linux => dirs::home_dir().unwrap_or_default().join(".vst3"),
+    }
+}
+
+pub fn config_dir() -> PathBuf {
+    let d = dirs::config_dir().unwrap_or_else(std::env::temp_dir).join("NyashkLauncher");
+    let _ = std::fs::create_dir_all(&d);
+    d
+}
+
+pub fn cache_dir() -> PathBuf {
+    let d = dirs::cache_dir().unwrap_or_else(std::env::temp_dir).join("NyashkLauncher");
+    let _ = std::fs::create_dir_all(&d);
+    d
+}
+
+// ---------------------------------------------------------------- settings
+
+#[derive(Serialize, Deserialize, Clone, PartialEq)]
+#[serde(default)]
+pub struct Settings {
+    pub install_dir: String,
+    pub check_on_startup: bool,
+    pub include_prereleases: bool,
+    pub keep_downloads: bool,
+    pub github_token: String,
+    pub background_minutes: u32,
+    pub notify: bool,
+}
+
+impl Default for Settings {
+    fn default() -> Self {
+        Settings {
+            install_dir: default_install_dir().to_string_lossy().into_owned(),
+            check_on_startup: true,
+            include_prereleases: false,
+            keep_downloads: false,
+            github_token: String::new(),
+            background_minutes: 60,
+            notify: true,
+        }
+    }
+}
+
+impl Settings {
+    pub fn load() -> Settings {
+        std::fs::read(config_dir().join("settings.json"))
+            .ok()
+            .and_then(|b| serde_json::from_slice(&b).ok())
+            .unwrap_or_default()
+    }
+    pub fn save(&self) {
+        if let Ok(b) = serde_json::to_vec_pretty(self) {
+            let _ = std::fs::write(config_dir().join("settings.json"), b);
+        }
+    }
+    pub fn dir(&self) -> PathBuf {
+        let s = self.install_dir.trim();
+        if s.is_empty() {
+            default_install_dir()
+        } else {
+            PathBuf::from(s)
+        }
+    }
+}
+
+// ---------------------------------------------------------------- installed records
+
+#[derive(Serialize, Deserialize, Clone, Default)]
+pub struct Record {
+    pub version: String,
+    pub dir: String,
+    pub installed_at: String,
+}
+
+#[derive(Serialize, Deserialize, Default)]
+pub struct Installed(pub HashMap<String, Record>);
+
+impl Installed {
+    pub fn load() -> Installed {
+        std::fs::read(config_dir().join("installed.json"))
+            .ok()
+            .and_then(|b| serde_json::from_slice(&b).ok())
+            .unwrap_or_default()
+    }
+    pub fn save(&self) {
+        if let Ok(b) = serde_json::to_vec_pretty(self) {
+            let _ = std::fs::write(config_dir().join("installed.json"), b);
+        }
+    }
+}
+
+pub fn bundle_path(dir: &Path, def: &PluginDef) -> PathBuf {
+    dir.join(def.bundle)
+}
+
+// ---------------------------------------------------------------- versions
+
+/// "v1.0.4" -> [1,0,4]; anything non-numeric sorts as 0.
+pub fn parse_version(tag: &str) -> Vec<u64> {
+    tag.trim()
+        .trim_start_matches(['v', 'V'])
+        .split(['.', '-', '+'])
+        .map(|p| p.parse::<u64>().unwrap_or(0))
+        .collect()
+}
+
+pub fn cmp_version(a: &str, b: &str) -> std::cmp::Ordering {
+    let (mut x, mut y) = (parse_version(a), parse_version(b));
+    let n = x.len().max(y.len());
+    x.resize(n, 0);
+    y.resize(n, 0);
+    x.cmp(&y)
+}
+
+/// Current UTC time as `YYYY-MM-DD HH:MM` without extra dependencies.
+pub fn now_stamp() -> String {
+    let secs = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map(|d| d.as_secs() as i64)
+        .unwrap_or(0);
+    let days = secs.div_euclid(86400);
+    let rem = secs.rem_euclid(86400);
+    // civil-from-days (Howard Hinnant)
+    let z = days + 719468;
+    let era = z.div_euclid(146097);
+    let doe = z.rem_euclid(146097);
+    let yoe = (doe - doe / 1460 + doe / 36524 - doe / 146096) / 365;
+    let y = yoe + era * 400;
+    let doy = doe - (365 * yoe + yoe / 4 - yoe / 100);
+    let mp = (5 * doy + 2) / 153;
+    let d = doy - (153 * mp + 2) / 5 + 1;
+    let m = if mp < 10 { mp + 3 } else { mp - 9 };
+    let y = if m <= 2 { y + 1 } else { y };
+    format!("{y:04}-{m:02}-{d:02} {:02}:{:02}", rem / 3600, (rem % 3600) / 60)
+}
+
+pub fn human_size(b: u64) -> String {
+    if b >= 1 << 20 {
+        format!("{:.1} MB", b as f64 / (1u64 << 20) as f64)
+    } else {
+        format!("{:.0} KB", b as f64 / 1024.0)
+    }
+}
+
+/// Desktop notification through the platform tools (no extra dependencies).
+pub fn notify(title: &str, body: &str) {
+    use std::process::Command;
+    let (t, b) = (title.replace('"', "'"), body.replace('"', "'"));
+    let _ = match OS {
+        Os::Linux => Command::new("notify-send").args([&t, &b]).spawn(),
+        Os::MacOs => Command::new("osascript").args(["-e", &format!("display notification \"{b}\" with title \"{t}\"")]).spawn(),
+        Os::Windows => Command::new("powershell")
+            .args(["-NoProfile", "-WindowStyle", "Hidden", "-Command", &format!(
+                "Add-Type -AssemblyName System.Windows.Forms; $n=New-Object System.Windows.Forms.NotifyIcon; \
+                 $n.Icon=[System.Drawing.SystemIcons]::Information; $n.Visible=$true; \
+                 $n.ShowBalloonTip(8000,'{t}','{b}',[System.Windows.Forms.ToolTipIcon]::Info); Start-Sleep 9; $n.Dispose()")])
+            .spawn(),
+    };
+}

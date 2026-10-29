@@ -1,0 +1,60 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: ${{ matrix.name }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { name: Linux,   os: ubuntu-22.04, bin: nyashklauncher }
+          - { name: Windows, os: windows-latest, bin: nyashklauncher.exe }
+          - { name: macOS,   os: macos-latest, bin: nyashklauncher }
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Linux dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgl-dev libx11-dev libxkbcommon-dev libwayland-dev libxcb1-dev libxcursor-dev libxrandr-dev libxi-dev
+      - run: cargo build --release
+      - name: Package (Linux / macOS)
+        if: runner.os != 'Windows'
+        run: |
+          mkdir out && cp target/release/${{ matrix.bin }} out/NyashkLauncher
+          cd out && zip -r ../NyashkLauncher-${{ matrix.name }}.zip NyashkLauncher
+      - name: Package (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          mkdir out; Copy-Item target/release/nyashklauncher.exe out/NyashkLauncher.exe
+          Compress-Archive -Path out/NyashkLauncher.exe -DestinationPath NyashkLauncher-Windows.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: NyashkLauncher-${{ matrix.name }}
+          path: NyashkLauncher-${{ matrix.name }}.zip
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { path: dist, merge-multiple: true }
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.zip
+          body_path: RELEASE_NOTES.md
