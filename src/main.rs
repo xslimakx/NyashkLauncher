@@ -394,12 +394,15 @@ impl eframe::App for App {
 }
 
 fn main() -> eframe::Result {
+    #[cfg(target_os = "linux")]
+    linux_integration();
     if let Ok(exe) = std::env::current_exe() {
         let _ = std::fs::remove_file(exe.with_extension("old")); // leftover of a Windows self-update
     }
     let options = eframe::NativeOptions {
         viewport: egui::ViewportBuilder::default()
             .with_title("Nyashk Launcher")
+            .with_app_id("NyashkLauncher")
             .with_inner_size(start_size())
             .with_min_inner_size([980.0, 560.0])
             .with_icon(window_icon()),
@@ -424,4 +427,35 @@ fn start_size() -> [f32; 2] {
             Some([w.parse().ok()?, h.parse().ok()?])
         })
         .unwrap_or([1120.0, 720.0])
+}
+
+/// Linux taskbars take the icon from a .desktop file, not from the window.
+/// Create / refresh ~/.local/share/applications/NyashkLauncher.desktop and its icon.
+#[cfg(target_os = "linux")]
+fn linux_integration() {
+    let (Some(data), Ok(exe)) = (dirs::data_dir(), std::env::current_exe()) else { return };
+    let icon = data.join("icons/hicolor/256x256/apps/NyashkLauncher.png");
+    if std::fs::read(&icon).map(|b| b != ICON_PNG).unwrap_or(true) {
+        if let Some(d) = icon.parent() {
+            let _ = std::fs::create_dir_all(d);
+        }
+        let _ = std::fs::write(&icon, ICON_PNG);
+        let _ = std::process::Command::new("gtk-update-icon-cache")
+            .args(["-q", "-t", "-f"])
+            .arg(data.join("icons/hicolor"))
+            .status();
+    }
+    let desktop = format!(
+        "[Desktop Entry]\nType=Application\nName=Nyashk Launcher\nComment=Install and update Nyashk plugins\n\
+         Exec=\"{}\"\nIcon=NyashkLauncher\nTerminal=false\nCategories=AudioVideo;Audio;\nStartupWMClass=NyashkLauncher\n",
+        exe.display()
+    );
+    let path = data.join("applications/NyashkLauncher.desktop");
+    if std::fs::read_to_string(&path).map(|c| c != desktop).unwrap_or(true) {
+        if let Some(d) = path.parent() {
+            let _ = std::fs::create_dir_all(d);
+        }
+        let _ = std::fs::write(&path, desktop);
+        let _ = std::process::Command::new("update-desktop-database").arg(data.join("applications")).status();
+    }
 }
