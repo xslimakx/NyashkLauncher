@@ -15,6 +15,7 @@ pub enum Msg {
     Installed(usize, Result<String, String>),
     Launcher(Result<Vec<Release>, String>),
     SelfUpdated(Result<String, String>),
+    Registry(Result<bool, String>),
 }
 
 #[derive(Default)]
@@ -76,7 +77,7 @@ impl App {
         let settings = Settings::load();
         let mut app = App {
             installed: Installed::load(),
-            states: PLUGINS.iter().map(|_| PluginState::default()).collect(),
+            states: plugins().iter().map(|_| PluginState::default()).collect(),
             page: match std::env::var("NYASHK_PAGE").as_deref() {
                 Ok("settings") => Page::Settings,
                 Ok("synth") => Page::Detail(0),
@@ -99,6 +100,13 @@ impl App {
             background: false,
             notified: Default::default(),
         };
+        {
+            let (tx, ctx) = (app.tx.clone(), app.ctx.clone());
+            std::thread::spawn(move || {
+                let _ = tx.send(Msg::Registry(github::refresh_registry()));
+                ctx.request_repaint();
+            });
+        }
         app.refresh_disk();
         if app.settings.check_on_startup {
             app.check_all();
@@ -108,7 +116,7 @@ impl App {
 
     pub fn refresh_disk(&mut self) {
         let dir = self.settings.dir();
-        for (i, def) in PLUGINS.iter().enumerate() {
+        for (i, def) in plugins().iter().enumerate() {
             self.states[i].on_disk = bundle_path(&dir, def).exists();
         }
     }
@@ -118,7 +126,7 @@ impl App {
         if !self.states[i].on_disk {
             return None;
         }
-        let r = self.installed.0.get(PLUGINS[i].id)?;
+        let r = self.installed.0.get(plugins()[i].id)?;
         (r.dir == self.settings.dir().to_string_lossy()).then(|| r.version.clone())
     }
 
@@ -127,7 +135,7 @@ impl App {
         let mut v: Vec<&Release> = self.states[i]
             .releases
             .iter()
-            .filter(|r| !r.draft && (self.settings.include_prereleases || !r.prerelease) && r.asset_for(PLUGINS[i].bundle).is_some())
+            .filter(|r| !r.draft && (self.settings.include_prereleases || !r.prerelease) && r.asset_for(plugins()[i].bundle).is_some())
             .collect();
         v.sort_by(|a, b| cmp_version(&b.tag_name, &a.tag_name));
         v
@@ -163,7 +171,7 @@ impl App {
 
     pub fn check_all(&mut self) {
         let token = self.settings.github_token.clone();
-        for (i, def) in PLUGINS.iter().enumerate() {
+        for (i, def) in plugins().iter().enumerate() {
             if self.states[i].checking {
                 continue;
             }
@@ -222,7 +230,7 @@ impl App {
         if self.states[i].busy.is_some() {
             return;
         }
-        let def = &PLUGINS[i];
+        let def = &plugins()[i];
         let (dir, token, keep) = (self.settings.dir(), self.settings.github_token.clone(), self.settings.keep_downloads);
         let (tx, ctx) = (self.tx.clone(), self.ctx.clone());
         self.states[i].busy = Some((0.0, "Starting…".into()));
@@ -252,7 +260,7 @@ impl App {
     }
 
     pub fn uninstall(&mut self, i: usize) {
-        let def = &PLUGINS[i];
+        let def = &plugins()[i];
         match github::uninstall(def, &self.settings.dir()) {
             Ok(()) => {
                 self.installed.0.remove(def.id);
@@ -265,7 +273,7 @@ impl App {
     }
 
     pub fn updates_available(&self) -> Vec<usize> {
-        (0..PLUGINS.len()).filter(|&i| self.status(i) == Status::Update && self.states[i].busy.is_none()).collect()
+        (0..plugins().len()).filter(|&i| self.status(i) == Status::Update && self.states[i].busy.is_none()).collect()
     }
 
     pub fn update_many(&mut self, which: Vec<usize>) {
@@ -296,8 +304,8 @@ impl App {
                         if self.background && self.settings.notify {
                             for &u in &ups {
                                 let tag = self.latest(u).map(|r| r.tag_name.clone()).unwrap_or_default();
-                                if self.notified.insert(format!("{}:{tag}", PLUGINS[u].id)) {
-                                    notify("Nyashk plugin update", &format!("{} {tag} is available", PLUGINS[u].name));
+                                if self.notified.insert(format!("{}:{tag}", plugins()[u].id)) {
+                                    notify("Nyashk plugin update", &format!("{} {tag} is available", plugins()[u].name));
                                 }
                             }
                         }
@@ -330,6 +338,13 @@ impl App {
                         }
                     }
                 }
+                Msg::Registry(res) => {
+                    // a changed list only takes effect after a restart (indices are fixed for a run)
+                    if let Ok(true) = res {
+                        self.launcher_restart = true;
+                        self.status = "The plugin list was updated. Restart to see the changes.".into();
+                    }
+                }
                 Msg::SelfUpdated(res) => {
                     self.launcher_busy = None;
                     match res {
@@ -342,7 +357,7 @@ impl App {
                 }
                 Msg::Installed(i, res) => {
                     self.states[i].busy = None;
-                    let def = &PLUGINS[i];
+                    let def = &plugins()[i];
                     match res {
                         Ok(tag) => {
                             self.installed.0.insert(

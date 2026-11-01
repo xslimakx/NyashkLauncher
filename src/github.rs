@@ -60,7 +60,7 @@ struct CacheFile {
     releases: Vec<Release>,
 }
 
-fn agent() -> ureq::Agent {
+pub fn agent() -> ureq::Agent {
     ureq::AgentBuilder::new()
         .timeout_connect(Duration::from_secs(10))
         .timeout_read(Duration::from_secs(30))
@@ -293,4 +293,45 @@ pub fn self_update(zip_path: &Path) -> Result<(), String> {
         }
     }
     Ok(())
+}
+
+/// Download `plugins.json` (and the preview pictures it names) into the cache.
+/// Returns true if the list changed, so the launcher can ask for a restart.
+pub fn refresh_registry() -> Result<bool, String> {
+    let url = format!("{REGISTRY_BASE}plugins.json");
+    let body = agent()
+        .get(&url)
+        .call()
+        .map_err(|e| format!("plugin list: {e}"))?
+        .into_string()
+        .map_err(|e| e.to_string())?;
+    let parsed: serde_json::Value = serde_json::from_str(&body).map_err(|e| format!("plugin list is invalid: {e}"))?;
+    let _ = std::fs::create_dir_all(cache_dir().join("shots"));
+    // pictures first, so the list never refers to a picture that is not on disk
+    if let Some(arr) = parsed.get("plugins").and_then(|p| p.as_array()) {
+        for p in arr {
+            for s in p.get("shots").and_then(|s| s.as_array()).into_iter().flatten() {
+                let Some(u) = s.get("url").and_then(|u| u.as_str()) else { continue };
+                let u = if u.starts_with("http") { u.to_string() } else { format!("{REGISTRY_BASE}{}", u.trim_start_matches('/')) };
+                let path = shot_cache_path(&u);
+                if path.exists() {
+                    continue;
+                }
+                let mut bytes = Vec::new();
+                if let Ok(r) = agent().get(&u).call() {
+                    if r.into_reader().take(8 * 1024 * 1024).read_to_end(&mut bytes).is_ok() && !bytes.is_empty() {
+                        let _ = std::fs::write(&path, bytes);
+                    }
+                }
+            }
+        }
+    }
+    let path = cache_dir().join("plugins.json");
+    let old = std::fs::read_to_string(&path).unwrap_or_default();
+    if old == body {
+        return Ok(false);
+    }
+    std::fs::write(&path, &body).map_err(|e| e.to_string())?;
+    // the list in memory came from the old file (or the built-in one): changed only if it differs in content
+    Ok(true)
 }

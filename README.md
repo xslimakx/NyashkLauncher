@@ -36,3 +36,6 @@ Linux needs `libgl-dev libx11-dev libxkbcommon-dev libwayland-dev`. To add a plu
 Release zips must be named `<Plugin>-<Linux|Windows|macOS>-VST3.zip` and contain `<Plugin>.vst3/`.
 
 MIT license.
+
+## Adding a plugin without rebuilding the launcher
+The launcher reads `plugins.json` from this repo on every start (and caches it). To add a plugin, add an entry there (id, name, repo, bundle, category, tagline, description, tags, long, features, shots) and put its preview pictures in `assets/`. Users get a "Restart to see the changes" prompt. The built-in list in `src/model.rs` is only the offline fallback.

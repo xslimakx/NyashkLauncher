@@ -16,3 +16,5 @@ One app to install and update all Nyashk plugins (NyashkSynth, NyashkOpto, Nyash
 ## What's new in 1.1.0
 - Five new plugins: NyashkChannel, NyashkEQ, NyashkAir, NyashkPre, NyashkMeter.
 - New "Analysis" category.
+- The plugin list now comes from `plugins.json` on GitHub: new plugins no longer need a launcher update.
+- Rounded app icon.

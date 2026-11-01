@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::path::{Path, PathBuf};
 
-#[derive(Clone, Copy, PartialEq, Eq)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum Category {
     Instrument,
     Effect,
@@ -26,11 +26,13 @@ impl Category {
 
 pub const LAUNCHER_REPO: &str = "xslimakx/NyashkLauncher";
 
+#[derive(Clone)]
 pub struct Shot {
     pub caption: &'static str,
     pub data: &'static [u8],
 }
 
+#[derive(Clone)]
 pub struct PluginDef {
     pub id: &'static str,
     pub name: &'static str,
@@ -45,8 +47,8 @@ pub struct PluginDef {
     pub shots: &'static [Shot],
 }
 
-/// To add another plugin to the launcher, add one entry here.
-pub const PLUGINS: &[PluginDef] = &[
+/// Built-in fallback list. The live list is `plugins()`: this plus `plugins.json` from the launcher repo.
+pub const BUILTIN: &[PluginDef] = &[
     PluginDef {
         id: "synth",
         name: "NyashkSynth",
@@ -446,4 +448,114 @@ pub fn notify(title: &str, body: &str) {
                  $n.ShowBalloonTip(8000,'{t}','{b}',[System.Windows.Forms.ToolTipIcon]::Info); Start-Sleep 9; $n.Dispose()")])
             .spawn(),
     };
+}
+
+// ---------------------------------------------------------------- remote registry
+
+pub const REGISTRY_BASE: &str = "https://raw.githubusercontent.com/xslimakx/NyashkLauncher/main/";
+
+#[derive(Deserialize)]
+struct RemoteShot {
+    caption: String,
+    url: String,
+}
+#[derive(Deserialize)]
+struct RemotePlugin {
+    id: String,
+    name: String,
+    repo: String,
+    bundle: String,
+    #[serde(default)]
+    category: String,
+    #[serde(default)]
+    tagline: String,
+    #[serde(default)]
+    description: String,
+    #[serde(default)]
+    tags: Vec<String>,
+    #[serde(default)]
+    long: String,
+    #[serde(default)]
+    features: Vec<String>,
+    #[serde(default)]
+    shots: Vec<RemoteShot>,
+}
+#[derive(Deserialize)]
+struct RemoteFile {
+    plugins: Vec<RemotePlugin>,
+}
+
+fn leak(s: String) -> &'static str {
+    Box::leak(s.into_boxed_str())
+}
+
+fn parse_category(s: &str) -> Category {
+    match s.to_ascii_lowercase().as_str() {
+        "instrument" | "instruments" => Category::Instrument,
+        "tool" | "tools" | "vocal" | "vocal tools" => Category::Tool,
+        "analysis" | "analyzer" | "meter" => Category::Analysis,
+        _ => Category::Effect,
+    }
+}
+
+pub fn shot_cache_path(url: &str) -> PathBuf {
+    shot_cache(url)
+}
+fn shot_cache(url: &str) -> PathBuf {
+    let safe: String = url.chars().map(|c| if c.is_ascii_alphanumeric() || c == '.' { c } else { '_' }).collect();
+    cache_dir().join("shots").join(safe)
+}
+fn full_url(u: &str) -> String {
+    if u.starts_with("http") {
+        u.to_string()
+    } else {
+        format!("{REGISTRY_BASE}{}", u.trim_start_matches('/'))
+    }
+}
+
+fn registry_cache() -> PathBuf {
+    cache_dir().join("plugins.json")
+}
+
+/// The plugin list for this run: built-in entries, overridden / extended by the cached registry.
+pub fn plugins() -> &'static [PluginDef] {
+    static REG: std::sync::OnceLock<Vec<PluginDef>> = std::sync::OnceLock::new();
+    REG.get_or_init(|| {
+        let mut list: Vec<PluginDef> = BUILTIN.to_vec();
+        let Some(rf) = std::fs::read(registry_cache()).ok().and_then(|b| serde_json::from_slice::<RemoteFile>(&b).ok()) else {
+            return list;
+        };
+        for r in rf.plugins {
+            let shots: Vec<Shot> = r
+                .shots
+                .iter()
+                .filter_map(|s| {
+                    let bytes = std::fs::read(shot_cache(&full_url(&s.url))).ok()?;
+                    Some(Shot { caption: leak(s.caption.clone()), data: Box::leak(bytes.into_boxed_slice()) })
+                })
+                .collect();
+            let old = list.iter().position(|d| d.id == r.id);
+            let tags: Vec<&'static str> = r.tags.into_iter().map(leak).collect();
+            let features: Vec<&'static str> = r.features.into_iter().map(leak).collect();
+            let shots = if shots.is_empty() { old.map(|i| list[i].shots.to_vec()).unwrap_or_default() } else { shots };
+            let def = PluginDef {
+                id: leak(r.id),
+                name: leak(r.name),
+                repo: leak(r.repo),
+                bundle: leak(r.bundle),
+                category: parse_category(&r.category),
+                tagline: leak(r.tagline),
+                description: leak(r.description),
+                tags: Box::leak(tags.into_boxed_slice()),
+                long: leak(r.long),
+                features: Box::leak(features.into_boxed_slice()),
+                shots: Box::leak(shots.into_boxed_slice()),
+            };
+            match old {
+                Some(i) => list[i] = def,
+                None => list.push(def),
+            }
+        }
+        list
+    })
 }

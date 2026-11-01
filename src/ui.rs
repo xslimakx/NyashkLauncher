@@ -257,7 +257,7 @@ pub fn draw(app: &mut App, ctx: &Context) {
                 app.page = Page::All;
             }
             for c in Category::ALL {
-                let n = PLUGINS.iter().enumerate().filter(|(i, d)| d.category == c && app.status(*i) == Status::Update).count();
+                let n = plugins().iter().enumerate().filter(|(i, d)| d.category == c && app.status(*i) == Status::Update).count();
                 if nav_item(ui, c.label(), n, app.page == Page::Cat(c)) {
                     app.page = Page::Cat(c);
                 }
@@ -288,8 +288,8 @@ pub fn draw(app: &mut App, ctx: &Context) {
                 for c in cats {
                     ui.label(RichText::new(c.label().to_uppercase()).size(12.0).color(DIM));
                     ui.add_space(2.0);
-                    for i in 0..PLUGINS.len() {
-                        if PLUGINS[i].category == c {
+                    for i in 0..plugins().len() {
+                        if plugins()[i].category == c {
                             card(app, ui, i, &mut acts);
                             ui.add_space(6.0);
                         }
@@ -347,7 +347,7 @@ fn picture(app: &mut App, ui: &mut Ui, key: &str, bytes: &[u8], max: egui::Vec2)
 // ------------------------------------------------------------------ plugin card
 
 fn card(app: &mut App, ui: &mut Ui, i: usize, acts: &mut Vec<Action>) {
-    let def = &PLUGINS[i];
+    let def = &plugins()[i];
     let status = app.status(i);
     Frame::new().fill(CARD).stroke(Stroke::new(1.0, LINE)).corner_radius(10).inner_margin(Margin::same(16)).show(ui, |ui| {
         ui.set_width(ui.available_width());
@@ -506,7 +506,7 @@ fn release_block(ui: &mut Ui, r: &Release) {
 // ------------------------------------------------------------------ plugin page
 
 fn detail_page(app: &mut App, ui: &mut Ui, i: usize, acts: &mut Vec<Action>) {
-    let def = &PLUGINS[i];
+    let def = &plugins()[i];
     if secondary(ui, "‹  Back").clicked() {
         app.page = Page::All;
     }
