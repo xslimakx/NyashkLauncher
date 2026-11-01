@@ -1,4 +1,4 @@
-# Nyashk Launcher v1.0.0
+# Nyashk Launcher v1.1.0
 
 One app to install and update all Nyashk plugins (NyashkSynth, NyashkOpto, NyashkTune).
 
@@ -12,3 +12,7 @@ One app to install and update all Nyashk plugins (NyashkSynth, NyashkOpto, Nyash
 - Checks for a new launcher version too: one click downloads it, replaces itself and restarts
 - Re-checks plugins in the background while open (interval in Settings) and shows a desktop notification; the window title shows the number of pending updates
 - Plugin preview pictures on the cards and a page for every plugin: gallery, description, features and full release history
+
+## What's new in 1.1.0
+- Five new plugins: NyashkChannel, NyashkEQ, NyashkAir, NyashkPre, NyashkMeter.
+- New "Analysis" category.
