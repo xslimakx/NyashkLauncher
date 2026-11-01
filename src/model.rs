@@ -9,15 +9,17 @@ pub enum Category {
     Instrument,
     Effect,
     Tool,
+    Analysis,
 }
 
 impl Category {
-    pub const ALL: [Category; 3] = [Category::Instrument, Category::Effect, Category::Tool];
+    pub const ALL: [Category; 4] = [Category::Instrument, Category::Effect, Category::Tool, Category::Analysis];
     pub fn label(self) -> &'static str {
         match self {
             Category::Instrument => "Instruments",
             Category::Effect => "Effects",
             Category::Tool => "Vocal tools",
+            Category::Analysis => "Analysis",
         }
     }
 }
@@ -125,6 +127,114 @@ pub const PLUGINS: &[PluginDef] = &[
             Shot { caption: "Formant", data: include_bytes!("../assets/tune_2.jpg") },
             Shot { caption: "Voices", data: include_bytes!("../assets/tune_3.jpg") },
             Shot { caption: "Preset browser", data: include_bytes!("../assets/tune_4.jpg") },
+        ],
+    },
+    PluginDef {
+        id: "channel",
+        name: "NyashkChannel",
+        repo: "xslimakx/NyashkStudio",
+        bundle: "NyashkChannel.vst3",
+        category: Category::Effect,
+        tagline: "Channel strip",
+        description: "SSL-style channel strip: input stage, filters, expander / gate, compressor and a 4-band EQ in one plugin.",
+        tags: &["VST3", "Channel strip", "EQ", "Dynamics"],
+        long: "A complete console channel in one plugin, in the spirit of the SSL E / G channel: input section with line and mic gain, high-pass and low-pass filters, expander / gate, compressor with auto makeup, a four-band EQ (BROWN and BLACK voicing), and an output fader with width and mono.",
+        features: &[
+            "Input: polarity, -20 dB pad, line trim, mic gain, ANALOG saturation",
+            "HP 18 dB/oct and LP filters, optionally on the dynamics sidechain only (SPLIT)",
+            "Expander / gate with threshold, range, release and fast attack",
+            "Compressor with soft knee, ratio up to infinity, release, fast attack and auto makeup",
+            "Dynamics before or after the EQ",
+            "4-band EQ: LF and HF shelf or bell, LMF and HMF with Q, BROWN / BLACK character",
+            "Output fader, stereo width and mono, in / out and gain reduction meters",
+        ],
+        shots: &[
+            Shot { caption: "Channel", data: include_bytes!("../assets/channel_1.jpg") },
+        ],
+    },
+    PluginDef {
+        id: "eq",
+        name: "NyashkEQ",
+        repo: "xslimakx/NyashkStudio",
+        bundle: "NyashkEQ.vst3",
+        category: Category::Effect,
+        tagline: "Parametric equalizer",
+        description: "4-band parametric EQ with HP / LP, draggable nodes over a live spectrum, mid / side mode and analog stage.",
+        tags: &["VST3", "EQ"],
+        long: "A clean four-band parametric equalizer in the style of a classic console EQ. Drag the nodes on the graph, see the live spectrum behind the curve, and work in stereo, mid or side. BLACK and BROWN voicings change how bands behave.",
+        features: &[
+            "Draggable nodes over a live spectrum analyser",
+            "HP 18 dB/oct and LP filters",
+            "LF and HF shelf or bell, two fully parametric mid bands",
+            "STEREO, MID and SIDE processing",
+            "BLACK and BROWN voicing, optional ANALOG stage",
+            "Phase invert, output gain, click-free bypass",
+        ],
+        shots: &[
+            Shot { caption: "Equalizer", data: include_bytes!("../assets/eq_1.jpg") },
+        ],
+    },
+    PluginDef {
+        id: "air",
+        name: "NyashkAir",
+        repo: "xslimakx/NyashkStudio",
+        bundle: "NyashkAir.vst3",
+        category: Category::Effect,
+        tagline: "Air / presence exciter",
+        description: "Adds smooth air and presence to vocals and mixes without harshness.",
+        tags: &["VST3", "Exciter", "Air"],
+        long: "An air and presence exciter in the spirit of Slate Fresh Air. Two knobs add brightness and openness in the mids and highs, with dynamic reduction so it does not get harsh, and a live curve that shows exactly what is being added.",
+        features: &[
+            "MID AIR and HIGH AIR knobs, LINK to move them together",
+            "Dynamic reduction keeps the top smooth",
+            "Live curve of the added energy",
+            "Input / output meters and trim, click-free power",
+        ],
+        shots: &[
+            Shot { caption: "Air", data: include_bytes!("../assets/air_1.jpg") },
+        ],
+    },
+    PluginDef {
+        id: "pre",
+        name: "NyashkPre",
+        repo: "xslimakx/NyashkStudio",
+        bundle: "NyashkPre.vst3",
+        category: Category::Effect,
+        tagline: "Vocal preamp",
+        description: "Light vocal preamp and saturator with tube, iron and clean character plus a simple tone section.",
+        tags: &["VST3", "Preamp", "Saturation", "Vocal"],
+        long: "A light vocal preamp: gain and drive into three characters (tube, iron transformer, clean solid-state) followed by low cut, warmth, presence and silk. Auto level keeps loudness steady while you set the sound.",
+        features: &[
+            "Gain and Drive with saturation curve display",
+            "TUBE, IRON and CLEAN character",
+            "Low cut, Warmth, Presence and Silk tone controls",
+            "Parallel MIX, AUTO LEVEL, polarity, output",
+        ],
+        shots: &[
+            Shot { caption: "Preamp", data: include_bytes!("../assets/pre_1.jpg") },
+        ],
+    },
+    PluginDef {
+        id: "meter",
+        name: "NyashkMeter",
+        repo: "xslimakx/NyashkStudio",
+        bundle: "NyashkMeter.vst3",
+        category: Category::Analysis,
+        tagline: "Loudness and spectrum meter",
+        description: "Master-bus analyser: LUFS (momentary, short-term, integrated), LRA, true peak, spectrum, stereo and tonal balance.",
+        tags: &["VST3", "Meter", "LUFS", "Analyzer"],
+        long: "A mastering meter that passes audio through untouched. ITU-R BS.1770-4 loudness with momentary, short-term and gated integrated LUFS, loudness range, true peak, a spectrum with selectable source, goniometer, correlation, loudness history and tonal balance.",
+        features: &[
+            "Momentary, short-term and integrated LUFS, LRA, max values",
+            "Targets: -9, -14, -16, -23 LUFS with history line",
+            "True peak (4x), sample peak, PLR and overs count",
+            "Spectrum: curve or 1/3 octave, L+R / MID / SIDE / L / R, slopes, speed, hold",
+            "Goniometer, correlation and balance",
+            "Tonal balance across six bands",
+            "Loudness history 1 or 5 minutes",
+        ],
+        shots: &[
+            Shot { caption: "Overview", data: include_bytes!("../assets/meter_1.jpg") },
         ],
     },
 ];

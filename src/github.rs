@@ -39,6 +39,16 @@ impl Release {
     pub fn asset(&self) -> Option<&Asset> {
         self.assets.iter().find(|a| OS.matches_asset(&a.name))
     }
+    /// Same, for a repo that holds several plugins: prefer the zip named after the bundle.
+    pub fn asset_for(&self, bundle: &str) -> Option<&Asset> {
+        let stem = bundle.trim_end_matches(".vst3").to_ascii_lowercase();
+        let cands: Vec<&Asset> = self.assets.iter().filter(|a| OS.matches_asset(&a.name)).collect();
+        cands
+            .iter()
+            .find(|a| a.name.to_ascii_lowercase().starts_with(&stem))
+            .copied()
+            .or(if cands.len() == 1 { cands.first().copied() } else { None })
+    }
     pub fn date(&self) -> &str {
         self.published_at.as_deref().map(|s| s.get(..10).unwrap_or(s)).unwrap_or("")
     }

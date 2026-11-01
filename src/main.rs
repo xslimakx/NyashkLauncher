@@ -127,7 +127,7 @@ impl App {
         let mut v: Vec<&Release> = self.states[i]
             .releases
             .iter()
-            .filter(|r| !r.draft && (self.settings.include_prereleases || !r.prerelease) && r.asset().is_some())
+            .filter(|r| !r.draft && (self.settings.include_prereleases || !r.prerelease) && r.asset_for(PLUGINS[i].bundle).is_some())
             .collect();
         v.sort_by(|a, b| cmp_version(&b.tag_name, &a.tag_name));
         v
@@ -232,7 +232,7 @@ impl App {
                 ctx.request_repaint();
             };
             let res = (|| {
-                let asset = rel.asset().ok_or_else(|| format!("{} has no build for {}", rel.tag_name, OS.name()))?;
+                let asset = rel.asset_for(def.bundle).ok_or_else(|| format!("{} has no build for {}", rel.tag_name, OS.name()))?;
                 let zip = github::download(asset, &token, |d, t| {
                     send(Msg::Progress(
                         i,
