@@ -132,7 +132,7 @@ pub const PLUGINS: &[PluginDef] = &[
     PluginDef {
         id: "channel",
         name: "NyashkChannel",
-        repo: "xslimakx/NyashkStudio",
+        repo: "xslimakx/NyashkChannel",
         bundle: "NyashkChannel.vst3",
         category: Category::Effect,
         tagline: "Channel strip",
@@ -155,7 +155,7 @@ pub const PLUGINS: &[PluginDef] = &[
     PluginDef {
         id: "eq",
         name: "NyashkEQ",
-        repo: "xslimakx/NyashkStudio",
+        repo: "xslimakx/NyashkEQ",
         bundle: "NyashkEQ.vst3",
         category: Category::Effect,
         tagline: "Parametric equalizer",
@@ -177,7 +177,7 @@ pub const PLUGINS: &[PluginDef] = &[
     PluginDef {
         id: "air",
         name: "NyashkAir",
-        repo: "xslimakx/NyashkStudio",
+        repo: "xslimakx/NyashkAir",
         bundle: "NyashkAir.vst3",
         category: Category::Effect,
         tagline: "Air / presence exciter",
@@ -197,7 +197,7 @@ pub const PLUGINS: &[PluginDef] = &[
     PluginDef {
         id: "pre",
         name: "NyashkPre",
-        repo: "xslimakx/NyashkStudio",
+        repo: "xslimakx/NyashkPre",
         bundle: "NyashkPre.vst3",
         category: Category::Effect,
         tagline: "Vocal preamp",
@@ -217,7 +217,7 @@ pub const PLUGINS: &[PluginDef] = &[
     PluginDef {
         id: "meter",
         name: "NyashkMeter",
-        repo: "xslimakx/NyashkStudio",
+        repo: "xslimakx/NyashkMeter",
         bundle: "NyashkMeter.vst3",
         category: Category::Analysis,
         tagline: "Loudness and spectrum meter",
