@@ -362,6 +362,9 @@ pub struct Record {
     pub version: String,
     pub dir: String,
     pub installed_at: String,
+    /// sha256 of the installed zip: lets the launcher notice a rebuild published under the same tag.
+    #[serde(default)]
+    pub digest: String,
 }
 
 #[derive(Serialize, Deserialize, Default)]

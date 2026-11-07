@@ -307,6 +307,7 @@ pub fn refresh_registry() -> Result<bool, String> {
         .map_err(|e| e.to_string())?;
     let parsed: serde_json::Value = serde_json::from_str(&body).map_err(|e| format!("plugin list is invalid: {e}"))?;
     let _ = std::fs::create_dir_all(cache_dir().join("shots"));
+    let mut pics_changed = false;
     // pictures first, so the list never refers to a picture that is not on disk
     if let Some(arr) = parsed.get("plugins").and_then(|p| p.as_array()) {
         for p in arr {
@@ -314,13 +315,25 @@ pub fn refresh_registry() -> Result<bool, String> {
                 let Some(u) = s.get("url").and_then(|u| u.as_str()) else { continue };
                 let u = if u.starts_with("http") { u.to_string() } else { format!("{REGISTRY_BASE}{}", u.trim_start_matches('/')) };
                 let path = shot_cache_path(&u);
+                let tag_path = path.with_extension("etag");
+                let mut req = agent().get(&u);
                 if path.exists() {
-                    continue;
+                    if let Ok(t) = std::fs::read_to_string(&tag_path) {
+                        if !t.is_empty() {
+                            req = req.set("If-None-Match", t.trim());
+                        }
+                    }
                 }
-                let mut bytes = Vec::new();
-                if let Ok(r) = agent().get(&u).call() {
+                // the picture may have been replaced under the same name, so ask GitHub (304 = unchanged)
+                if let Ok(r) = req.call() {
+                    let etag = r.header("ETag").unwrap_or("").to_string();
+                    let mut bytes = Vec::new();
                     if r.into_reader().take(8 * 1024 * 1024).read_to_end(&mut bytes).is_ok() && !bytes.is_empty() {
+                        if std::fs::read(&path).map(|old| old != bytes).unwrap_or(true) {
+                            pics_changed = true;
+                        }
                         let _ = std::fs::write(&path, bytes);
+                        let _ = std::fs::write(&tag_path, etag);
                     }
                 }
             }
@@ -329,7 +342,7 @@ pub fn refresh_registry() -> Result<bool, String> {
     let path = cache_dir().join("plugins.json");
     let old = std::fs::read_to_string(&path).unwrap_or_default();
     if old == body {
-        return Ok(false);
+        return Ok(pics_changed);
     }
     std::fs::write(&path, &body).map_err(|e| e.to_string())?;
     // the list in memory came from the old file (or the built-in one): changed only if it differs in content

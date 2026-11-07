@@ -12,7 +12,7 @@ use std::sync::mpsc::{channel, Receiver, Sender};
 pub enum Msg {
     Releases(usize, Result<Vec<Release>, String>),
     Progress(usize, f32, String),
-    Installed(usize, Result<String, String>),
+    Installed(usize, Result<(String, String), String>),
     Launcher(Result<Vec<Release>, String>),
     SelfUpdated(Result<String, String>),
     Registry(Result<bool, String>),
@@ -165,7 +165,16 @@ impl App {
         match self.installed_version(i) {
             None => Status::UnknownVersion,
             Some(v) if cmp_version(&latest.tag_name, &v).is_gt() => Status::Update,
-            Some(_) => Status::UpToDate,
+            Some(_) => {
+                // same tag, but the build was replaced (re-tagged / rebuilt): compare the zip checksums
+                let old = self.installed.0.get(plugins()[i].id).map(|r| r.digest.as_str()).unwrap_or("");
+                let new = latest.asset_for(plugins()[i].bundle).and_then(|a| a.digest.as_deref()).unwrap_or("");
+                if !old.is_empty() && !new.is_empty() && !old.eq_ignore_ascii_case(new) {
+                    Status::Update
+                } else {
+                    Status::UpToDate
+                }
+            }
         }
     }
 
@@ -253,7 +262,7 @@ impl App {
                 if !keep {
                     let _ = std::fs::remove_file(&zip);
                 }
-                Ok::<String, String>(rel.tag_name.clone())
+                Ok::<(String, String), String>((rel.tag_name.clone(), asset.digest.clone().unwrap_or_default()))
             })();
             send(Msg::Installed(i, res));
         });
@@ -359,13 +368,14 @@ impl App {
                     self.states[i].busy = None;
                     let def = &plugins()[i];
                     match res {
-                        Ok(tag) => {
+                        Ok((tag, digest)) => {
                             self.installed.0.insert(
                                 def.id.into(),
                                 Record {
                                     version: tag.clone(),
                                     dir: self.settings.dir().to_string_lossy().into_owned(),
                                     installed_at: now_stamp(),
+                                    digest,
                                 },
                             );
                             self.installed.save();

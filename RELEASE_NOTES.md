@@ -1,4 +1,4 @@
-# Nyashk Launcher v1.1.0
+# Nyashk Launcher v1.1.1
 
 One app to install and update all Nyashk plugins (NyashkSynth, NyashkOpto, NyashkTune).
 
@@ -18,3 +18,7 @@ One app to install and update all Nyashk plugins (NyashkSynth, NyashkOpto, Nyash
 - New "Analysis" category.
 - The plugin list now comes from `plugins.json` on GitHub: new plugins no longer need a launcher update.
 - Rounded app icon.
+
+## 1.1.1
+- Preview pictures are refreshed when they change on GitHub (they were cached forever before).
+- A plugin rebuilt under the same version tag is now detected (by checksum) and shown as "Update available".
