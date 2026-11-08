@@ -54,6 +54,7 @@ pub struct App {
     pub launcher: Option<Release>,      // newer launcher release, if any
     pub launcher_busy: Option<(f32, String)>,
     pub launcher_restart: bool,
+    pub registry_restart: bool, // the plugin list changed on GitHub: needs a restart to show
     last_auto: std::time::Instant,
     background: bool,
     notified: std::collections::HashSet<String>,
@@ -96,6 +97,7 @@ impl App {
             launcher: None,
             launcher_busy: None,
             launcher_restart: false,
+            registry_restart: false,
             last_auto: std::time::Instant::now(),
             background: false,
             notified: Default::default(),
@@ -229,9 +231,7 @@ impl App {
     }
 
     pub fn restart(&self) {
-        if let Ok(exe) = std::env::current_exe() {
-            let _ = std::process::Command::new(exe).spawn();
-        }
+        let _ = std::process::Command::new(start_exe()).spawn();
         std::process::exit(0);
     }
 
@@ -350,7 +350,7 @@ impl App {
                 Msg::Registry(res) => {
                     // a changed list only takes effect after a restart (indices are fixed for a run)
                     if let Ok(true) = res {
-                        self.launcher_restart = true;
+                        self.registry_restart = true;
                         self.status = "The plugin list was updated. Restart to see the changes.".into();
                     }
                 }
@@ -419,6 +419,7 @@ impl eframe::App for App {
 }
 
 fn main() -> eframe::Result {
+    let _ = start_exe(); // remember the original path before any self-update renames it
     #[cfg(target_os = "linux")]
     linux_integration();
     if let Ok(exe) = std::env::current_exe() {

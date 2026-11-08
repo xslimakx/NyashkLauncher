@@ -562,3 +562,20 @@ pub fn plugins() -> &'static [PluginDef] {
         list
     })
 }
+
+/// Path of the launcher executable as it was when the program started. After a self-update the
+/// running file has been renamed or replaced (Linux reports "... (deleted)", Windows reports the
+/// ".old" copy), so restarting must use the remembered original path, not `current_exe()` later.
+pub fn start_exe() -> &'static std::path::PathBuf {
+    static EXE: std::sync::OnceLock<std::path::PathBuf> = std::sync::OnceLock::new();
+    EXE.get_or_init(|| {
+        let p = std::env::current_exe().unwrap_or_default();
+        let s = p.to_string_lossy().into_owned();
+        let s = s.strip_suffix(" (deleted)").unwrap_or(&s).to_string();
+        let mut p = std::path::PathBuf::from(s);
+        if p.extension().map(|e| e == "old").unwrap_or(false) {
+            p.set_extension(if cfg!(windows) { "exe" } else { "" });
+        }
+        p
+    })
+}

@@ -208,13 +208,29 @@ pub fn draw(app: &mut App, ctx: &Context) {
             });
         });
 
+    if app.launcher.is_none() && app.registry_restart {
+        egui::TopBottomPanel::top("banner")
+            .exact_height(40.0)
+            .frame(Frame::new().fill(Color32::from_rgb(34, 34, 34)).inner_margin(Margin::symmetric(22, 0)).stroke(Stroke::new(1.0, LINE)))
+            .show(ctx, |ui| {
+                ui.horizontal_centered(|ui| {
+                    ui.label(RichText::new("The plugin list or previews were updated. Restart to see them.").color(WHITE));
+                    ui.with_layout(Layout::right_to_left(Align::Center), |ui| {
+                        if primary(ui, "Restart now").clicked() {
+                            app.restart();
+                        }
+                    });
+                });
+            });
+    }
     if let Some(rel) = app.launcher.clone() {
         egui::TopBottomPanel::top("banner")
             .exact_height(40.0)
             .frame(Frame::new().fill(Color32::from_rgb(34, 34, 34)).inner_margin(Margin::symmetric(22, 0)).stroke(Stroke::new(1.0, LINE)))
             .show(ctx, |ui| {
                 ui.horizontal_centered(|ui| {
-                    ui.label(RichText::new(format!("Launcher {} is available (you have v{})", rel.tag_name, env!("CARGO_PKG_VERSION"))).color(WHITE));
+                    let msg = if app.launcher_restart { format!("Launcher {} is installed. Restart to use it.", rel.tag_name) } else { format!("Launcher {} is available (you have v{})", rel.tag_name, env!("CARGO_PKG_VERSION")) };
+                    ui.label(RichText::new(msg).color(WHITE));
                     ui.with_layout(Layout::right_to_left(Align::Center), |ui| {
                         if app.launcher_restart {
                             if primary(ui, "Restart now").clicked() {

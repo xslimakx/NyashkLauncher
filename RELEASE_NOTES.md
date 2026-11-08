@@ -22,3 +22,4 @@ One app to install and update all Nyashk plugins (NyashkSynth, NyashkOpto, Nyash
 ## 1.1.1
 - Preview pictures are refreshed when they change on GitHub (they were cached forever before).
 - A plugin rebuilt under the same version tag is now detected (by checksum) and shown as "Update available".
+- Fixed: after a launcher update "Restart now" started the old copy (Linux: nothing started, Windows: the .old file). It now restarts the updated launcher.

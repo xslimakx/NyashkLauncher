@@ -264,7 +264,7 @@ pub fn uninstall(def: &PluginDef, dir: &Path) -> Result<(), String> {
 
 /// Replace the running executable with the one inside the downloaded zip.
 pub fn self_update(zip_path: &Path) -> Result<(), String> {
-    let exe = std::env::current_exe().map_err(|e| e.to_string())?;
+    let exe = start_exe().clone();
     let want = if cfg!(windows) { "NyashkLauncher.exe" } else { "NyashkLauncher" };
     let file = std::fs::File::open(zip_path).map_err(|e| e.to_string())?;
     let mut zip = zip::ZipArchive::new(file).map_err(|e| format!("bad archive: {e}"))?;
