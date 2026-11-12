@@ -16,6 +16,7 @@
       ],
       "long": "A complete console channel in one plugin, in the spirit of the SSL E / G channel: input section with line and mic gain, high-pass and low-pass filters, expander / gate, compressor with auto makeup, a four-band EQ (BROWN and BLACK voicing), and an output fader with width and mono.",
       "features": [
+        "Live output spectrum behind the EQ curve",
         "Input: polarity, -20 dB pad, line trim, mic gain, ANALOG saturation",
         "HP 18 dB/oct and LP filters, optionally on the dynamics sidechain only (SPLIT)",
         "Expander / gate with threshold, range, release and fast attack",
@@ -74,6 +75,7 @@
       ],
       "long": "An air and presence exciter in the spirit of Slate Fresh Air. Two knobs add brightness and openness in the mids and highs, with dynamic reduction so it does not get harsh, and a live curve that shows exactly what is being added.",
       "features": [
+        "Live spectrum of input and output behind the air curve",
         "MID AIR and HIGH AIR knobs, LINK to move them together",
         "Dynamic reduction keeps the top smooth",
         "Live curve of the added energy",
@@ -102,6 +104,7 @@
       ],
       "long": "A light vocal preamp: gain and drive into three characters (tube, iron transformer, clean solid-state) followed by low cut, warmth, presence and silk. Auto level keeps loudness steady while you set the sound.",
       "features": [
+        "Live spectrum behind the tone curve and a live trace on the saturation curve",
         "Gain and Drive with saturation curve display",
         "TUBE, IRON and CLEAN character",
         "Low cut, Warmth, Presence and Silk tone controls",
@@ -142,6 +145,82 @@
         {
           "caption": "Overview",
           "url": "assets/meter_1.jpg"
+        }
+      ]
+    },
+    {
+      "id": "opto",
+      "name": "NyashkOpto",
+      "repo": "xslimakx/NyashkOpto",
+      "bundle": "NyashkOpto.vst3",
+      "category": "effect",
+      "tagline": "Optical compressor",
+      "description": "LA-2A style optical compressor with program-dependent attack, two-stage release, compress / limit modes and analog hum + saturation.",
+      "tags": [
+        "VST3",
+        "Compressor",
+        "Dynamics"
+      ],
+      "long": "A model of an optical (opto-cell) compressor in the spirit of the LA-2A. Attack is program-dependent and release is two-stage with memory, so it breathes like the hardware. Simple to use: Peak Reduction and Gain do most of the work.",
+      "features": [
+        "Live waveform (input / output) with the gain reduction line",
+        "Peak Reduction: amount of compression; Gain: output level",
+        "COMPRESS or LIMIT mode",
+        "Hi Freq (HF Follow): emphasis in the sidechain to tame sibilance",
+        "ANALOG: OFF / 50 Hz / 60 Hz soft saturation with mains hum, like real hardware",
+        "Mix for parallel compression, Auto Makeup and Trim",
+        "VU meter with INPUT, GR and OUTPUT views",
+        "Transparent at Peak Reduction 0, click-free bypass"
+      ],
+      "shots": [
+        {
+          "caption": "Overview",
+          "url": "assets/opto_1.jpg"
+        }
+      ]
+    },
+    {
+      "id": "tune",
+      "name": "NyashkTune",
+      "repo": "xslimakx/NyashkTune",
+      "bundle": "NyashkTune.vst3",
+      "category": "tool",
+      "tagline": "Realtime pitch correction",
+      "description": "Autotune from transparent natural correction to the hard T-Pain effect, with formant control, voices and a preset browser.",
+      "tags": [
+        "VST3",
+        "Autotune",
+        "Vocal"
+      ],
+      "long": "Realtime vocal pitch correction, from transparent natural tuning to the hard T-Pain effect. YIN pitch detection with PSOLA resynthesis, 16 scales plus a custom one, formant control, harmony voices and a preset browser.",
+      "features": [
+        "Sharps and flats: both spellings on every black key, the ♯ / ♭ switch picks the one used everywhere",
+        "ULTRA: MIDI-like hard steps between notes, dead flat on the note, with an on / off switch",
+        "YIN pitch detection with continuity tracking (no octave jumps), PSOLA resynthesis, mono and stereo",
+        "16 scales plus Custom, key and reference A4; per-note BYPASS for blue notes and slides",
+        "Retune Speed from natural to hard, Flex-Tune, Humanize, Natural Vibrato, synthetic vibrato with four shapes",
+        "MIDI Target: tune to the notes you play",
+        "Transpose, Detune and Formant Shift with 5 algorithms",
+        "2 extra voices (harmony, octave, double) with interval, pan, detune and delay",
+        "Air and Drive colour, voice ranges from Bass to Soprano",
+        "28 presets (including Anime Vocal) and your own saved presets"
+      ],
+      "shots": [
+        {
+          "caption": "Tune",
+          "url": "assets/tune_1.jpg"
+        },
+        {
+          "caption": "Formant",
+          "url": "assets/tune_2.jpg"
+        },
+        {
+          "caption": "Voices",
+          "url": "assets/tune_3.jpg"
+        },
+        {
+          "caption": "Preset browser",
+          "url": "assets/tune_4.jpg"
         }
       ]
     }
