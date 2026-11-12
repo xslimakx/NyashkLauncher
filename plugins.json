@@ -16,7 +16,8 @@
       ],
       "long": "A complete console channel in one plugin, in the spirit of the SSL E / G channel: input section with line and mic gain, high-pass and low-pass filters, expander / gate, compressor with auto makeup, a four-band EQ (BROWN and BLACK voicing), and an output fader with width and mono.",
       "features": [
-        "Live output spectrum behind the EQ curve",
+        "Live output spectrum behind the EQ curve, HP / LP filters drawn on the graph",
+        "DYN view: expander / gate and compressor curve with the live level",
         "Input: polarity, -20 dB pad, line trim, mic gain, ANALOG saturation",
         "HP 18 dB/oct and LP filters, optionally on the dynamics sidechain only (SPLIT)",
         "Expander / gate with threshold, range, release and fast attack",
