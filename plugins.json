@@ -149,6 +149,37 @@
       ]
     },
     {
+      "id": "daubiko",
+      "name": "DauBiko",
+      "repo": "xslimakx/DauBiko",
+      "bundle": "DauBiko.vst3",
+      "category": "effect",
+      "tagline": "Analog mastering processor",
+      "description": "All-in-one master bus: tone EQ, one DYNAMICS knob from glue to punch, tape / tube color, width and a lookahead limiter.",
+      "tags": [
+        "VST3",
+        "Mastering",
+        "EQ",
+        "Dynamics",
+        "Limiter"
+      ],
+      "long": "An analog-style mastering processor with a worn vintage console face: brushed and scratched metal, machined aluminium knobs, chrome toggles, backlit VU meters and an amber screen with the live spectrum. Shape the tone, set the dynamics with one big knob (left glues the mix together, right makes it punch), add tape or tube color, adjust the stereo image and finish with a lookahead limiter.",
+      "features": [
+        "Tone: low cut, LOW 80 Hz, BODY 250 Hz, PRESENCE 3.2 kHz, AIR 12 kHz and TILT, with a live curve",
+        "DYNAMICS knob: GLUE (bus compression with auto makeup) to PUNCH (transient lift, tighter tails), 1 ms lookahead",
+        "COLOR: TAPE or TUBE saturation, 2x oversampled",
+        "STEREO: width 0 to 200 % and BASS MONO below 120 Hz",
+        "OUTPUT: gain into a 1.5 ms lookahead limiter with ceiling",
+        "VU meters, live spectrum, gain change and limiter LEDs, click-free bypass, resizable window"
+      ],
+      "shots": [
+        {
+          "caption": "DauBiko",
+          "url": "assets/daubiko_1.jpg"
+        }
+      ]
+    },
+    {
       "id": "opto",
       "name": "NyashkOpto",
       "repo": "xslimakx/NyashkOpto",

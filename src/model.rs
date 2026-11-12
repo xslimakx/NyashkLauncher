@@ -91,6 +91,7 @@ pub const BUILTIN: &[PluginDef] = &[
         tags: &["VST3", "Compressor", "Dynamics"],
         long: "A model of an optical (opto-cell) compressor in the spirit of the LA-2A. Attack is program-dependent and release is two-stage with memory, so it breathes like the hardware. Simple to use: Peak Reduction and Gain do most of the work.",
         features: &[
+            "Live waveform (input / output) with the gain reduction line",
             "Peak Reduction: amount of compression; Gain: output level",
             "COMPRESS or LIMIT mode",
             "Hi Freq (HF Follow): emphasis in the sidechain to tame sibilance",
@@ -115,6 +116,8 @@ pub const BUILTIN: &[PluginDef] = &[
         tags: &["VST3", "Autotune", "Vocal"],
         long: "Realtime vocal pitch correction, from transparent natural tuning to the hard T-Pain effect. YIN pitch detection with PSOLA resynthesis, 16 scales plus a custom one, formant control, harmony voices and a preset browser.",
         features: &[
+            "Sharps and flats: both spellings on every black key, the ♯ / ♭ switch picks the one used everywhere",
+            "ULTRA: MIDI-like hard steps between notes, dead flat on the note, with an on / off switch",
             "YIN pitch detection with continuity tracking (no octave jumps), PSOLA resynthesis, mono and stereo",
             "16 scales plus Custom, key and reference A4; per-note BYPASS for blue notes and slides",
             "Retune Speed from natural to hard, Flex-Tune, Humanize, Natural Vibrato, synthetic vibrato with four shapes",
@@ -142,6 +145,7 @@ pub const BUILTIN: &[PluginDef] = &[
         tags: &["VST3", "Channel strip", "EQ", "Dynamics"],
         long: "A complete console channel in one plugin, in the spirit of the SSL E / G channel: input section with line and mic gain, high-pass and low-pass filters, expander / gate, compressor with auto makeup, a four-band EQ (BROWN and BLACK voicing), and an output fader with width and mono.",
         features: &[
+            "Live output spectrum behind the EQ curve",
             "Input: polarity, -20 dB pad, line trim, mic gain, ANALOG saturation",
             "HP 18 dB/oct and LP filters, optionally on the dynamics sidechain only (SPLIT)",
             "Expander / gate with threshold, range, release and fast attack",
@@ -187,6 +191,7 @@ pub const BUILTIN: &[PluginDef] = &[
         tags: &["VST3", "Exciter", "Air"],
         long: "An air and presence exciter in the spirit of Slate Fresh Air. Two knobs add brightness and openness in the mids and highs, with dynamic reduction so it does not get harsh, and a live curve that shows exactly what is being added.",
         features: &[
+            "Live spectrum of input and output behind the air curve",
             "MID AIR and HIGH AIR knobs, LINK to move them together",
             "Dynamic reduction keeps the top smooth",
             "Live curve of the added energy",
@@ -207,6 +212,7 @@ pub const BUILTIN: &[PluginDef] = &[
         tags: &["VST3", "Preamp", "Saturation", "Vocal"],
         long: "A light vocal preamp: gain and drive into three characters (tube, iron transformer, clean solid-state) followed by low cut, warmth, presence and silk. Auto level keeps loudness steady while you set the sound.",
         features: &[
+            "Live spectrum behind the tone curve and a live trace on the saturation curve",
             "Gain and Drive with saturation curve display",
             "TUBE, IRON and CLEAN character",
             "Low cut, Warmth, Presence and Silk tone controls",
@@ -237,6 +243,28 @@ pub const BUILTIN: &[PluginDef] = &[
         ],
         shots: &[
             Shot { caption: "Overview", data: include_bytes!("../assets/meter_1.jpg") },
+        ],
+    },
+    PluginDef {
+        id: "daubiko",
+        name: "DauBiko",
+        repo: "xslimakx/DauBiko",
+        bundle: "DauBiko.vst3",
+        category: Category::Effect,
+        tagline: "Analog mastering processor",
+        description: "All-in-one master bus: tone EQ, one DYNAMICS knob from glue to punch, tape / tube color, width and a lookahead limiter.",
+        tags: &["VST3", "Mastering", "EQ", "Dynamics", "Limiter"],
+        long: "An analog-style mastering processor with a worn vintage console face: brushed and scratched metal, machined aluminium knobs, chrome toggles, backlit VU meters and an amber screen with the live spectrum. Shape the tone, set the dynamics with one big knob (left glues the mix together, right makes it punch), add tape or tube color, adjust the stereo image and finish with a lookahead limiter.",
+        features: &[
+            "Tone: low cut, LOW 80 Hz, BODY 250 Hz, PRESENCE 3.2 kHz, AIR 12 kHz and TILT, with a live curve",
+            "DYNAMICS knob: GLUE (bus compression with auto makeup) to PUNCH (transient lift, tighter tails), 1 ms lookahead",
+            "COLOR: TAPE or TUBE saturation, 2x oversampled",
+            "STEREO: width 0 to 200 % and BASS MONO below 120 Hz",
+            "OUTPUT: gain into a 1.5 ms lookahead limiter with ceiling",
+            "VU meters, live spectrum, gain change and limiter LEDs, click-free bypass, resizable window",
+        ],
+        shots: &[
+            Shot { caption: "DauBiko", data: include_bytes!("../assets/daubiko_1.jpg") },
         ],
     },
 ];

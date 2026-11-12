@@ -8,7 +8,7 @@ Install and update the Nyashk VST3 plugins from one place.
 
 ![Launcher](docs/img/launcher.png)
 
-- Lists **NyashkSynth**, **NyashkOpto** and **NyashkTune** by category.
+- Lists all Nyashk plugins and **DauBiko** by category.
 - Checks GitHub Releases for new versions (ETag cache, works offline with the last known list).
 - Update one plugin, the ticked ones, or all. Pick **any version** from the dropdown to install or downgrade.
 - Shows the release notes for everything new since your installed version.
