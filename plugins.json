@@ -150,6 +150,36 @@
       ]
     },
     {
+      "id": "key",
+      "name": "NyashkKey",
+      "repo": "xslimakx/NyashkKey",
+      "bundle": "NyashkKey.vst3",
+      "category": "analysis",
+      "tagline": "Key and tuning finder",
+      "description": "Finds the key of a sample, beat or track and how far its tuning is off 440 Hz (sped-up samples), with the values to type into NyashkTune.",
+      "tags": [
+        "VST3",
+        "Key",
+        "Tuning",
+        "Analyzer"
+      ],
+      "features": [
+        "Key (major / minor, all 12 keys) with confidence, relative key and Camelot code",
+        "Two next best keys with how close they are",
+        "Tuning offset in cents and the matching Ref A4 (e.g. +39 c = 449.9 Hz)",
+        "Notes view: whole analysis and right now, scale notes and tonic marked",
+        "Key, Scale and Ref A4 ready for NyashkTune",
+        "HOLD, RESET, note spelling AUTO / sharps / flats; audio passes through untouched"
+      ],
+      "long": "Put it on a sample, a beat or the master bus and play. NyashkKey collects every note it hears in a one-cent pitch histogram, works out how far the tuning is off the 440 Hz grid (a sample that was sped up or slowed down) and matches the tuned notes against major and minor key profiles. It shows the key, how sure it is, the relative key, the Camelot code, the tuning and Ref A4, and the Key / Scale / Ref A4 to use in NyashkTune.",
+      "shots": [
+        {
+          "caption": "Overview",
+          "url": "assets/key_1.jpg"
+        }
+      ]
+    },
+    {
       "id": "daubiko",
       "name": "DauBiko",
       "repo": "xslimakx/DauBiko",
