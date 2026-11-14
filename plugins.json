@@ -248,41 +248,27 @@
       "bundle": "NyashkTune.vst3",
       "category": "tool",
       "tagline": "Realtime pitch correction",
-      "description": "Autotune from transparent natural correction to the hard T-Pain effect, with formant control, voices and a preset browser.",
+      "description": "Real-time pitch correction with the controls of a classic real-time tuner, from transparent tuning that keeps the singer's vibrato to the hard quantized effect.",
       "tags": [
         "VST3",
         "Autotune",
         "Vocal"
       ],
-      "long": "Realtime vocal pitch correction, from transparent natural tuning to the hard T-Pain effect. YIN pitch detection with PSOLA resynthesis, 16 scales plus a custom one, formant control, harmony voices and a preset browser.",
+      "long": "Real-time vocal pitch correction laid out like a classic hardware-simple tuner: Speed and Note Transition, Tolerance, Vibrato with depth, Correction amount and Formant corrected / non-corrected. The note is chosen on the note centre with the vibrato taken out, so a wide vibrato never flips it, and the tuner never pulls the voice further than its own target.",
       "features": [
-        "Sharps and flats: both spellings on every black key, the ♯ / ♭ switch picks the one used everywhere",
-        "ULTRA: MIDI-like hard steps between notes, dead flat on the note, with an on / off switch",
-        "YIN pitch detection with continuity tracking (no octave jumps), PSOLA resynthesis, mono and stereo",
-        "16 scales plus Custom, key and reference A4; per-note BYPASS for blue notes and slides",
-        "Retune Speed from natural to hard, Flex-Tune, Humanize, Natural Vibrato, synthetic vibrato with four shapes",
-        "MIDI Target: tune to the notes you play",
-        "Transpose, Detune and Formant Shift with 5 algorithms",
-        "2 extra voices (harmony, octave, double) with interval, pan, detune and delay",
-        "Air and Drive colour, voice ranges from Bass to Soprano",
-        "28 presets (including Anime Vocal) and your own saved presets"
+        "Speed (0.1-800 ms) and Note Transition with Link",
+        "Tolerance in cents and time: the note changes only past 50 + tol cents for tol ms",
+        "Vibrato On keeps the singer's vibrato (Depth 0-200 %), Off gives the hard quantized effect",
+        "Correction amount 1-100 %, Formant corrected / non-corrected",
+        "Keyboard note states: Legal, Illegal, pitch up / down, Bypass; drag the correction range",
+        "16 scales plus Custom, root with sharps or flats, Reference A4 415-466 Hz",
+        "Voice ranges from Bass to Soprano, MIDI target, correction meter and IN / OUT meters",
+        "YIN pitch detection with continuity, PSOLA resynthesis that rebuilds the voice unchanged at zero correction"
       ],
       "shots": [
         {
-          "caption": "Tune",
+          "caption": "Overview",
           "url": "assets/tune_1.jpg"
-        },
-        {
-          "caption": "Formant",
-          "url": "assets/tune_2.jpg"
-        },
-        {
-          "caption": "Voices",
-          "url": "assets/tune_3.jpg"
-        },
-        {
-          "caption": "Preset browser",
-          "url": "assets/tune_4.jpg"
         }
       ]
     }
