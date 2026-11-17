@@ -303,6 +303,38 @@
           "url": "assets/formant_1.jpg"
         }
       ]
+    },
+    {
+      "id": "limit",
+      "name": "NyashkLimit",
+      "repo": "xslimakx/NyashkLimit",
+      "bundle": "NyashkLimit.vst3",
+      "category": "effect",
+      "tagline": "True peak mastering limiter",
+      "description": "Make a master loud and clean: a two-stage look-ahead limiter with true peak control, loudness meters and dither in one plugin.",
+      "tags": [
+        "VST3",
+        "Limiter",
+        "Mastering",
+        "Loudness"
+      ],
+      "long": "A mastering limiter for the final stage of a mix. Two limiting stages (a slow one for the body, a fast look-ahead one for transients) shaped by eight styles, true peak limiting with up to 32x oversampling, and a scrolling display that shows input, output, gain reduction and loudness. Loudness metering follows BS.1770 / EBU R128, and dither with noise shaping finishes the file for delivery.",
+      "features": [
+        "8 limiting styles, from transparent to aggressive",
+        "Look-ahead, attack, release and channel link for transients and release",
+        "True peak limiting (dBTP) with oversampling up to 32x",
+        "Output ceiling with delivery presets, Unity Gain and Audition",
+        "Dither 16-24 bit with three noise-shaping curves, DC filter, side chain",
+        "Scrolling display with gain-reduction peak labels, four display modes",
+        "Level, K-System and loudness meters: M / S / I, LRA, targets",
+        "Compact view with big numbers, presets, A/B, undo / redo"
+      ],
+      "shots": [
+        {
+          "caption": "Overview",
+          "url": "assets/limit_1.jpg"
+        }
+      ]
     }
   ]
 }
