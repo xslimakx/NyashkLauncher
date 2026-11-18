@@ -1,3 +1,8 @@
+# Nyashk Launcher v1.1.2
+
+- Нові фото й описи для Opto, Pre, Air і Channel (сучасний аналоговий дизайн).
+- Оновлений скриншот лаунчера в README.
+
 # Nyashk Launcher v1.1.1
 
 One app to install and update all Nyashk plugins (NyashkSynth, NyashkOpto, NyashkTune).
