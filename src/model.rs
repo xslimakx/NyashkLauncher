@@ -89,7 +89,7 @@ pub const BUILTIN: &[PluginDef] = &[
         description: "LA-2A style optical compressor with program-dependent attack, two-stage release, \
                       compress / limit modes and analog hum + saturation.",
         tags: &["VST3", "Compressor", "Dynamics"],
-        long: "A model of an optical (opto-cell) compressor in the spirit of the LA-2A. Attack is program-dependent and release is two-stage with memory, so it breathes like the hardware. Simple to use: Peak Reduction and Gain do most of the work.",
+        long: "A model of an optical (opto-cell) compressor in the spirit of the LA-2A. Attack is program-dependent and release is two-stage with memory, so it breathes like the hardware. Simple to use: Peak Reduction and Gain do most of the work. Modern analog faceplate: machined aluminium knobs with LED rings, a backlit VU with a needle under a curved cover, and lit push buttons.",
         features: &[
             "Live waveform (input / output) with the gain reduction line",
             "Peak Reduction: amount of compression; Gain: output level",
@@ -185,7 +185,7 @@ pub const BUILTIN: &[PluginDef] = &[
         tagline: "Channel strip",
         description: "SSL-style channel strip: input stage, filters, expander / gate, compressor and a 4-band EQ in one plugin.",
         tags: &["VST3", "Channel strip", "EQ", "Dynamics"],
-        long: "A complete console channel in one plugin, in the spirit of the SSL E / G channel: input section with line and mic gain, high-pass and low-pass filters, expander / gate, compressor with auto makeup, a four-band EQ (BROWN and BLACK voicing), and an output fader with width and mono.",
+        long: "A complete console channel in one plugin, in the spirit of the SSL E / G channel: input section with line and mic gain, high-pass and low-pass filters, expander / gate, compressor with auto makeup, a four-band EQ (BROWN and BLACK voicing), and an output fader with width and mono. Modern analog faceplate in the console style: colour-capped knobs with LED rings per section, lit push buttons and LED meters.",
         features: &[
             "Live output spectrum behind the EQ curve, HP / LP filters drawn on the graph",
             "DYN view: expander / gate and compressor curve with the live level",
@@ -232,7 +232,7 @@ pub const BUILTIN: &[PluginDef] = &[
         tagline: "Air / presence exciter",
         description: "Adds smooth air and presence to vocals and mixes without harshness.",
         tags: &["VST3", "Exciter", "Air"],
-        long: "An air and presence exciter in the spirit of Slate Fresh Air. Two knobs add brightness and openness in the mids and highs, with dynamic reduction so it does not get harsh, and a live curve that shows exactly what is being added.",
+        long: "An air and presence exciter in the spirit of Slate Fresh Air. Two knobs add brightness and openness in the mids and highs, with dynamic reduction so it does not get harsh, and a live curve that shows exactly what is being added. Modern analog faceplate in light anodised aluminium with machined knobs, blue LED rings and a glass curve display.",
         features: &[
             "Live spectrum of input and output behind the air curve",
             "MID AIR and HIGH AIR knobs, LINK to move them together",
@@ -253,7 +253,7 @@ pub const BUILTIN: &[PluginDef] = &[
         tagline: "Vocal preamp",
         description: "Light vocal preamp and saturator with tube, iron and clean character plus a simple tone section.",
         tags: &["VST3", "Preamp", "Saturation", "Vocal"],
-        long: "A light vocal preamp: gain and drive into three characters (tube, iron transformer, clean solid-state) followed by low cut, warmth, presence and silk. Auto level keeps loudness steady while you set the sound.",
+        long: "A light vocal preamp: gain and drive into three characters (tube, iron transformer, clean solid-state) followed by low cut, warmth, presence and silk. Auto level keeps loudness steady while you set the sound. Modern analog faceplate: a red gain knob on a metal skirt, machined knobs with LED rings, lit buttons and glass screens.",
         features: &[
             "Live spectrum behind the tone curve and a live trace on the saturation curve",
             "Gain and Drive with saturation curve display",
