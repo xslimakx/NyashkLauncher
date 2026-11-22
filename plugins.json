@@ -17,7 +17,7 @@
       "long": "MaxoGranular cuts sounds into tiny grains and plays them as clouds, pads, textures or playable tones. Two grain generators (24 built-in sounds or your own WAV files) in Cloud or pitch-locked Sync mode, a filter, three envelopes, four drawn LFOs and macros you patch onto any knob with a cable, tape delay and reverb. Behind a worn hammertone rack with phosphor CRT screens where every grain glows, tape reels that turn with the scan and VU meters.",
       "features": [
         "Two grain layers: Cloud (random grains) or Sync (locked to the note), up to 8 streams each",
-        "24 built-in sounds plus your own WAV files; drag the position on the waveform",
+        "Your own sound: LOAD, or drag WAV / AIFF / FLAC / MP3 / OGG / M4A onto the window; 24 built-in sounds",
         "Position, Scan, Spray, Size 1 ms - 2 s, Density, Jitter, Pitch, Skew, Reverse, Stereo, Detune",
         "Filter with 7 types and a draggable response curve",
         "3 envelopes and 4 drawn LFOs (free / retrig / 1-shot, tempo sync)",
@@ -31,7 +31,7 @@
           "url": "assets/maxo_1.jpg"
         },
         {
-          "caption": "Patching a cable",
+          "caption": "Patch cables and modulation pills",
           "url": "assets/maxo_2.jpg"
         },
         {
@@ -39,7 +39,7 @@
           "url": "assets/maxo_3.jpg"
         },
         {
-          "caption": "Presets",
+          "caption": "Load your own sound",
           "url": "assets/maxo_4.jpg"
         }
       ]
