@@ -342,43 +342,53 @@
       "repo": "xslimakx/WaveCube",
       "bundle": "WaveCube.vst3",
       "category": "effect",
-      "tagline": "Multi-shaper LFO effect",
-      "description": "Draw a shape and let volume, filter, pan, width, time, noise, crush and drive follow it in time with your song.",
+      "tagline": "Modular shaper: build a chain, draw the shapes",
+      "description": "A chain of up to 12 items (the same kind as often as you like): volume, filter, pan, width, time, noise, crush, drive, reverb, liquid, compressor and scope, each following its own drawn shapes in time with your song.",
       "tags": [
         "VST3",
         "LFO",
         "Modulation",
         "Sidechain",
-        "Multiband"
+        "Multiband",
+        "Reverb"
       ],
-      "long": "Up to eight shapers in one chain you build yourself (add, remove, drag to reorder): Volume with a compressor, Filter with 6-24 dB modes and phasers, Pan with Haas, Width, Time, Noise, Crush and Drive with ten styles. Every shaper has its own drawn LFO shape (points, curves, pens, steps), runs with the song, free in Hz or at the pitch of MIDI notes, can be restarted by MIDI or hits of the audio, has swing, a left / right offset, an envelope follower with sidechain input, and can split the signal into three bands. Preset browser with 42 factory presets, user presets, favourites and A/B, quick presets per shaper and nine user waves switchable by MIDI. Click-free switching and a safety clipper.",
+      "long": "Build your own chain of up to 12 items in any order, with duplicates (two Drives, three Volumes...): Volume, Filter (cutoff and resonance, clean or warm), Pan with Haas, Width, Time (tape stops, beat repeats, 16 s back), Noise (24 noises + your WAVs), Crush (bits and resample), Drive (12 styles), Reverb (14 spaces + your impulse responses, send and return shapes), Liquid (flanger / phaser), plus Compressor and Scope tools anywhere in the chain. Every lane has its own drawn shape, LFO (song sync, Hz or MIDI pitch; MIDI / audio trigger; 1-shot) and envelope follower with sidechain, per band in multiband mode. 136 factory presets, item presets, A/B, undo of everything, click-free changes, tested at every sample rate.",
       "features": [
-        "Modular chain of up to 8 shapers: Volume (+ compressor), Filter, Pan, Width, Time, Noise, Crush, Drive; add, remove, drag to reorder",
-        "Shape editor: points, curves, pens (step, ramp, arc, S-curve, triangle), random, x2 / x3, undo / redo, triplet grids",
-        "LFO: Beat, Hz up to 5 kHz or MIDI pitch; MIDI / audio retrigger and 1-shot; 1/128 to 32 bars; swing and stereo offset",
-        "Envelope follower on six shapers and a compressor on Volume, both with sidechain input",
-        "Multiband per shaper: 3 bands, a shape per band, solo",
-        "Filter: LP / HP 6-24 dB, BP, notch, peak, phasers with 2-8 notches or peaks, stereo spread",
-        "Drive with 10 styles, crush chain with crunch / bits / dither / resample / jitter, 8 noise types with follow / duck",
-        "Presets: browser with 42 factory presets, user presets, favourites, A/B, quick presets, 9 user waves with MIDI Switch",
-        "Click-free switching, smoothed controls, safety clipper, window size 75-200 %"
+        "Chain of up to 12 items, any order, duplicates; right-click: duplicate, replace, copy / paste, reset",
+        "Volume, Filter, Pan, Width, Time, Noise, Crush, Drive, Reverb, Liquid + Compressor and Scope tools",
+        "Two shapes (lanes) where it makes sense: cutoff / resonance, bits / resample, send / volume…; drag a lane to offset it",
+        "LFO per lane and band: Beat, Hz up to 5 kHz or MIDI pitch; Sync, MIDI or audio trigger; 1-shot with an end marker; swing, stereo offset",
+        "Envelope follower per lane and band: band, filtered input or sidechain; depth, shift, adaptive, listen",
+        "Multiband per item: 3 bands, own shapes, LFOs, envelopes, mix and solo; 6 / 12 / 24 dB splits",
+        "Shape editor: points, curves, select tool, pens, shape categories, random, x2 / x3, copy / paste, 9 custom waves with MIDI Switch",
+        "24 noises and 14 reverb spaces plus your own WAV noises and impulse responses",
+        "136 factory presets, 64 item presets, browser with filters by item, random preset, A/B, undo / redo",
+        "Click-free changes, same sound at 22-192 kHz, no latency, safety clipper"
       ],
       "shots": [
         {
-          "caption": "Swing gate",
+          "caption": "Everything chain",
           "url": "assets/wavecube_1.jpg"
         },
         {
-          "caption": "Multiband",
+          "caption": "Four items, random shapes",
           "url": "assets/wavecube_2.jpg"
         },
         {
-          "caption": "Preset browser",
+          "caption": "Multiband",
           "url": "assets/wavecube_3.jpg"
         },
         {
-          "caption": "Stereo wobble",
+          "caption": "Preset browser",
           "url": "assets/wavecube_4.jpg"
+        },
+        {
+          "caption": "Compressor tool",
+          "url": "assets/wavecube_5.jpg"
+        },
+        {
+          "caption": "Beat repeat",
+          "url": "assets/wavecube_6.jpg"
         }
       ]
     }
