@@ -335,6 +335,52 @@
           "url": "assets/limit_1.jpg"
         }
       ]
+    },
+    {
+      "id": "wavecube",
+      "name": "WaveCube",
+      "repo": "xslimakx/WaveCube",
+      "bundle": "WaveCube.vst3",
+      "category": "effect",
+      "tagline": "Multi-shaper LFO effect",
+      "description": "Draw a shape and let volume, filter, pan, width, time, noise, crush and drive follow it in time with your song.",
+      "tags": [
+        "VST3",
+        "LFO",
+        "Modulation",
+        "Sidechain",
+        "Multiband"
+      ],
+      "long": "Up to eight shapers in one chain you build yourself (add, remove, drag to reorder): Volume with a compressor, Filter with 6-24 dB modes and phasers, Pan with Haas, Width, Time, Noise, Crush and Drive with ten styles. Every shaper has its own drawn LFO shape (points, curves, pens, steps), runs with the song, free in Hz or at the pitch of MIDI notes, can be restarted by MIDI or hits of the audio, has swing, a left / right offset, an envelope follower with sidechain input, and can split the signal into three bands. Preset browser with 42 factory presets, user presets, favourites and A/B, quick presets per shaper and nine user waves switchable by MIDI. Click-free switching and a safety clipper.",
+      "features": [
+        "Modular chain of up to 8 shapers: Volume (+ compressor), Filter, Pan, Width, Time, Noise, Crush, Drive; add, remove, drag to reorder",
+        "Shape editor: points, curves, pens (step, ramp, arc, S-curve, triangle), random, x2 / x3, undo / redo, triplet grids",
+        "LFO: Beat, Hz up to 5 kHz or MIDI pitch; MIDI / audio retrigger and 1-shot; 1/128 to 32 bars; swing and stereo offset",
+        "Envelope follower on six shapers and a compressor on Volume, both with sidechain input",
+        "Multiband per shaper: 3 bands, a shape per band, solo",
+        "Filter: LP / HP 6-24 dB, BP, notch, peak, phasers with 2-8 notches or peaks, stereo spread",
+        "Drive with 10 styles, crush chain with crunch / bits / dither / resample / jitter, 8 noise types with follow / duck",
+        "Presets: browser with 42 factory presets, user presets, favourites, A/B, quick presets, 9 user waves with MIDI Switch",
+        "Click-free switching, smoothed controls, safety clipper, window size 75-200 %"
+      ],
+      "shots": [
+        {
+          "caption": "Swing gate",
+          "url": "assets/wavecube_1.jpg"
+        },
+        {
+          "caption": "Multiband",
+          "url": "assets/wavecube_2.jpg"
+        },
+        {
+          "caption": "Preset browser",
+          "url": "assets/wavecube_3.jpg"
+        },
+        {
+          "caption": "Stereo wobble",
+          "url": "assets/wavecube_4.jpg"
+        }
+      ]
     }
   ]
 }
