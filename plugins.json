@@ -263,7 +263,7 @@
         "Keyboard note states: Legal, Illegal, pitch up / down, Bypass; drag the correction range",
         "16 scales plus Custom, root with sharps or flats, Reference A4 415-466 Hz",
         "Voice ranges from Bass to Soprano, MIDI target, correction meter and IN / OUT meters",
-        "YIN pitch detection with continuity, PSOLA resynthesis that rebuilds the voice unchanged at zero correction"
+        "McLeod pitch detection and pitch-synchronous resampling (whole periods repeated or skipped): no sub-octave thumps, the voice unchanged at zero correction"
       ],
       "shots": [
         {
