@@ -94,6 +94,7 @@
       "long": "A full-featured equalizer: up to 24 bands with ten shapes and slopes up to 96 dB/oct or brickwall, every band dynamic or spectral, placed on stereo, left, right, mid or side. Zero Latency, Natural Phase and Linear Phase processing, a configurable analyzer with spectrum grab, collision view and EQ match, EQ sketch and a piano display.",
       "features": [
         "24 bands, 10 shapes: bell, shelves, cuts, notch, band pass, tilt, flat tilt, all pass; 6–96 dB/oct and brickwall",
+        "Hover a dot for quick buttons: on / off, solo, shape, dynamics, delete",
         "Dynamic EQ on every band: range ±30 dB, auto or manual threshold, attack / release, free trigger range, external side chain, band solo",
         "Spectral dynamics: only the frequencies that stick out are compressed or expanded, with density and tilt",
         "Zero Latency, Natural Phase and Linear Phase (5 resolutions)",
@@ -104,7 +105,7 @@
       ],
       "shots": [
         {
-          "caption": "Dynamic band with spectral mode",
+          "caption": "Band panel and hover buttons",
           "url": "assets/eq_1.jpg"
         },
         {
