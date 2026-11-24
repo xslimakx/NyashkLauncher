@@ -83,25 +83,37 @@
       "repo": "xslimakx/NyashkEQ",
       "bundle": "NyashkEQ.vst3",
       "category": "effect",
-      "tagline": "Parametric equalizer",
-      "description": "4-band parametric EQ with HP / LP, draggable nodes over a live spectrum, mid / side mode and analog stage.",
+      "tagline": "Dynamic equalizer",
+      "description": "24-band dynamic EQ with spectral dynamics, Zero Latency / Natural Phase / Linear Phase processing, per-band mid / side and side chain.",
       "tags": [
         "VST3",
-        "EQ"
+        "EQ",
+        "Dynamic EQ",
+        "Linear Phase"
       ],
-      "long": "A clean four-band parametric equalizer in the style of a classic console EQ. Drag the nodes on the graph, see the live spectrum behind the curve, and work in stereo, mid or side. BLACK and BROWN voicings change how bands behave.",
+      "long": "A full-featured equalizer: up to 24 bands with ten shapes and slopes up to 96 dB/oct or brickwall, every band dynamic or spectral, placed on stereo, left, right, mid or side. Zero Latency, Natural Phase and Linear Phase processing, a configurable analyzer with spectrum grab, collision view and EQ match, EQ sketch and a piano display.",
       "features": [
-        "Draggable nodes over a live spectrum analyser",
-        "HP 18 dB/oct and LP filters",
-        "LF and HF shelf or bell, two fully parametric mid bands",
-        "STEREO, MID and SIDE processing",
-        "BLACK and BROWN voicing, optional ANALOG stage",
-        "Phase invert, output gain, click-free bypass"
+        "24 bands, 10 shapes: bell, shelves, cuts, notch, band pass, tilt, flat tilt, all pass; 6–96 dB/oct and brickwall",
+        "Dynamic EQ on every band: range ±30 dB, auto or manual threshold, attack / release, free trigger range, external side chain, band solo",
+        "Spectral dynamics: only the frequencies that stick out are compressed or expanded, with density and tilt",
+        "Zero Latency, Natural Phase and Linear Phase (5 resolutions)",
+        "Per-band Stereo / Left / Right / Mid / Side",
+        "Analyzer: pre / post / side chain, range, resolution, speed, tilt, freeze, spectrum grab, collisions, EQ match",
+        "EQ Sketch, piano display, A/B, undo / redo",
+        "Character (Clean / Subtle / Warm), auto gain, gain scale, output gain / pan / phase"
       ],
       "shots": [
         {
-          "caption": "Equalizer",
+          "caption": "Dynamic band with spectral mode",
           "url": "assets/eq_1.jpg"
+        },
+        {
+          "caption": "Analyzer settings and EQ match",
+          "url": "assets/eq_2.jpg"
+        },
+        {
+          "caption": "EQ Sketch and piano display",
+          "url": "assets/eq_3.jpg"
         }
       ]
     },
@@ -339,7 +351,8 @@
         "Air and Drive colour, Mix and Output",
         "Live formant view: input and output envelopes with F1 / F2 marked",
         "Bit-exact pass-through at neutral settings, click-free at any setting",
-        "Voice ranges from Bass to Soprano"
+        "Voice ranges from Bass to Soprano",
+        "Low latency: about 11 ms for formant shifts, 0 ms when only colour is used"
       ],
       "shots": [
         {
