@@ -290,7 +290,9 @@
         "Mix for parallel compression, Auto Makeup and Trim",
         "VU meter with INPUT, GR and OUTPUT views",
         "Transparent at Peak Reduction 0, click-free bypass",
-        "2 ms look-ahead onset guard: loud entries after silence no longer burst through"
+        "ONSET: VINTAGE / SOFT / FIRM: how a loud entry is caught, from hardware-like punch to no burst",
+        "Attack and Release knobs around the classic opto timing, SC HPF so the bass does not pump",
+        "ENVELOPE screen: shows the onset burst with your settings"
       ],
       "shots": [
         {
