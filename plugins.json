@@ -105,15 +105,15 @@
       ],
       "shots": [
         {
-          "caption": "Band panel and hover buttons",
+          "caption": "Overview",
           "url": "assets/eq_1.jpg"
         },
         {
-          "caption": "Analyzer settings and EQ match",
+          "caption": "Hover a dot for quick buttons and values",
           "url": "assets/eq_2.jpg"
         },
         {
-          "caption": "EQ Sketch and piano display",
+          "caption": "Dynamic EQ: threshold, attack, release, trigger",
           "url": "assets/eq_3.jpg"
         }
       ]
@@ -289,7 +289,8 @@
         "ANALOG: OFF / 50 Hz / 60 Hz soft saturation with mains hum, like real hardware",
         "Mix for parallel compression, Auto Makeup and Trim",
         "VU meter with INPUT, GR and OUTPUT views",
-        "Transparent at Peak Reduction 0, click-free bypass"
+        "Transparent at Peak Reduction 0, click-free bypass",
+        "2 ms look-ahead onset guard: loud entries after silence no longer burst through"
       ],
       "shots": [
         {
@@ -391,6 +392,10 @@
         {
           "caption": "Overview",
           "url": "assets/limit_1.jpg"
+        },
+        {
+          "caption": "Loudness meters",
+          "url": "assets/limit_2.jpg"
         }
       ]
     },
