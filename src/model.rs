@@ -61,7 +61,7 @@ pub const BUILTIN: &[PluginDef] = &[
         description: "Serum-style wavetable synth: 3 oscillators with wavetable, sample, granular, \
                       multisample and spectral modes, two filters, mod matrix, effect rack and 146 factory presets.",
         tags: &["VST3", "Synth", "Wavetable"],
-        long: "SyntiTyzer (formerly NyashkSynth): a wavetable synthesizer with a dark blue-graphite design, 3D wavetable views and a tabbed modulation section. Three oscillators, each a wavetable, sample, granular, multisample or spectral source, run through two filters, a 16-slot mod matrix and a two-bus effect rack. Includes a wavetable editor, 146 factory presets and a powerful arpeggiator and clip sequencer.",
+        long: "SyntiTyzer (formerly NyashkSynth): a wavetable synthesizer with a black / grey / white design where every module type has its own colour, themes you can make and share (pictures included), movable modules, 3D wavetable views and a tabbed modulation section. Three oscillators, each a wavetable, sample, granular, multisample or spectral source, run through two filters, a 16-slot mod matrix and a two-bus effect rack. Includes a wavetable editor, 146 factory presets and a powerful arpeggiator and clip sequencer.",
         features: &[
             "3 oscillators: wavetable, sample, granular, multisample (.sfz) and spectral, with 22 warp modes and unison up to 16 voices",
             "Wavetable editor: draw, harmonics, formulas, multi-frame editing, morphing, import / export of .wav tables",
@@ -78,7 +78,7 @@ pub const BUILTIN: &[PluginDef] = &[
             Shot { caption: "Wavetable editor", data: include_bytes!("../assets/synth_2.jpg") },
             Shot { caption: "Mixer", data: include_bytes!("../assets/synth_3.jpg") },
             Shot { caption: "Effect rack", data: include_bytes!("../assets/synth_4.jpg") },
-            Shot { caption: "Custom point filter", data: include_bytes!("../assets/synth_5.jpg") },
+            Shot { caption: "Themes with pictures", data: include_bytes!("../assets/synth_5.jpg") },
             Shot { caption: "Preset browser", data: include_bytes!("../assets/synth_6.jpg") },
         ],
         replaces: &["NyashkSynth.vst3"],
