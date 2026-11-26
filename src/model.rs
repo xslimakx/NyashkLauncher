@@ -76,7 +76,7 @@ pub const BUILTIN: &[PluginDef] = &[
         shots: &[
             Shot { caption: "Overview", data: include_bytes!("../assets/synth_1.jpg") },
             Shot { caption: "Wavetable editor", data: include_bytes!("../assets/synth_2.jpg") },
-            Shot { caption: "Mod matrix", data: include_bytes!("../assets/synth_3.jpg") },
+            Shot { caption: "Mixer", data: include_bytes!("../assets/synth_3.jpg") },
             Shot { caption: "Effect rack", data: include_bytes!("../assets/synth_4.jpg") },
             Shot { caption: "Custom point filter", data: include_bytes!("../assets/synth_5.jpg") },
             Shot { caption: "Preset browser", data: include_bytes!("../assets/synth_6.jpg") },
