@@ -251,13 +251,22 @@ pub fn install_zip(zip_path: &Path, def: &PluginDef, dir: &Path) -> Result<(), S
         return Err(io_hint(&e, dir));
     }
     let _ = std::fs::remove_dir_all(&backup);
+    // the same plugin under its old name (same plug-in id): two copies would confuse the DAW
+    for old in def.replaces {
+        let p = dir.join(old);
+        if p.exists() {
+            let _ = std::fs::remove_dir_all(&p);
+        }
+    }
     Ok(())
 }
 
 pub fn uninstall(def: &PluginDef, dir: &Path) -> Result<(), String> {
-    let target = dir.join(def.bundle);
-    if target.exists() {
-        std::fs::remove_dir_all(&target).map_err(|e| io_hint(&e, dir))?;
+    for b in std::iter::once(&def.bundle).chain(def.replaces.iter()) {
+        let target = dir.join(b);
+        if target.exists() {
+            std::fs::remove_dir_all(&target).map_err(|e| io_hint(&e, dir))?;
+        }
     }
     Ok(())
 }

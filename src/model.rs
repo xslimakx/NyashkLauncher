@@ -45,21 +45,23 @@ pub struct PluginDef {
     pub long: &'static str,
     pub features: &'static [&'static str],
     pub shots: &'static [Shot],
+    /// bundles this plugin was installed as under an older name: removed when it is installed
+    pub replaces: &'static [&'static str],
 }
 
 /// Built-in fallback list. The live list is `plugins()`: this plus `plugins.json` from the launcher repo.
 pub const BUILTIN: &[PluginDef] = &[
     PluginDef {
         id: "synth",
-        name: "NyashkSynth",
+        name: "SyntiTyzer",
         repo: "xslimakx/NyashkSynth",
-        bundle: "NyashkSynth.vst3",
+        bundle: "SyntiTyzer.vst3",
         category: Category::Instrument,
         tagline: "Wavetable synthesizer",
         description: "Serum-style wavetable synth: 3 oscillators with wavetable, sample, granular, \
                       multisample and spectral modes, two filters, mod matrix, effect rack and 146 factory presets.",
         tags: &["VST3", "Synth", "Wavetable"],
-        long: "A wavetable synthesizer in the monochrome Nyashk design. Three oscillators, each a wavetable, sample, granular, multisample or spectral source, run through two filters, a 16-slot mod matrix and a two-bus effect rack. Includes a wavetable editor, 146 factory presets and a powerful arpeggiator and clip sequencer.",
+        long: "SyntiTyzer (formerly NyashkSynth): a wavetable synthesizer with a dark blue-graphite design, 3D wavetable views and a tabbed modulation section. Three oscillators, each a wavetable, sample, granular, multisample or spectral source, run through two filters, a 16-slot mod matrix and a two-bus effect rack. Includes a wavetable editor, 146 factory presets and a powerful arpeggiator and clip sequencer.",
         features: &[
             "3 oscillators: wavetable, sample, granular, multisample (.sfz) and spectral, with 22 warp modes and unison up to 16 voices",
             "Wavetable editor: draw, harmonics, formulas, multi-frame editing, morphing, import / export of .wav tables",
@@ -69,6 +71,7 @@ pub const BUILTIN: &[PluginDef] = &[
             "Arpeggiator with a 16-step pattern editor, clip sequencer with capture, MIDI out, key lock",
             "146 factory presets with categories, tags, favourites, ratings, HYBRID and RANDOM",
             "MIDI learn on every knob, Poly / Mono / Legato, undo / redo, drag and drop of tables and presets",
+            "Clean, loud output stage and BASS MONO for a tight low end",
         ],
         shots: &[
             Shot { caption: "Overview", data: include_bytes!("../assets/synth_1.jpg") },
@@ -78,6 +81,7 @@ pub const BUILTIN: &[PluginDef] = &[
             Shot { caption: "Custom point filter", data: include_bytes!("../assets/synth_5.jpg") },
             Shot { caption: "Preset browser", data: include_bytes!("../assets/synth_6.jpg") },
         ],
+        replaces: &["NyashkSynth.vst3"],
     },
     PluginDef {
         id: "opto",
@@ -103,6 +107,7 @@ pub const BUILTIN: &[PluginDef] = &[
         shots: &[
             Shot { caption: "Overview", data: include_bytes!("../assets/opto_1.jpg") },
         ],
+        replaces: &[],
     },
     PluginDef {
         id: "tune",
@@ -127,6 +132,7 @@ pub const BUILTIN: &[PluginDef] = &[
         shots: &[
             Shot { caption: "Overview", data: include_bytes!("../assets/tune_1.jpg") },
         ],
+        replaces: &[],
     },
     PluginDef {
         id: "formant",
@@ -151,6 +157,7 @@ pub const BUILTIN: &[PluginDef] = &[
         shots: &[
             Shot { caption: "Overview", data: include_bytes!("../assets/formant_1.jpg") },
         ],
+        replaces: &[],
     },
     PluginDef {
         id: "limit",
@@ -175,6 +182,7 @@ pub const BUILTIN: &[PluginDef] = &[
         shots: &[
             Shot { caption: "Overview", data: include_bytes!("../assets/limit_1.jpg") },
         ],
+        replaces: &[],
     },
     PluginDef {
         id: "channel",
@@ -200,6 +208,7 @@ pub const BUILTIN: &[PluginDef] = &[
         shots: &[
             Shot { caption: "Channel", data: include_bytes!("../assets/channel_1.jpg") },
         ],
+        replaces: &[],
     },
     PluginDef {
         id: "eq",
@@ -222,6 +231,7 @@ pub const BUILTIN: &[PluginDef] = &[
         shots: &[
             Shot { caption: "Equalizer", data: include_bytes!("../assets/eq_1.jpg") },
         ],
+        replaces: &[],
     },
     PluginDef {
         id: "air",
@@ -243,6 +253,7 @@ pub const BUILTIN: &[PluginDef] = &[
         shots: &[
             Shot { caption: "Air", data: include_bytes!("../assets/air_1.jpg") },
         ],
+        replaces: &[],
     },
     PluginDef {
         id: "pre",
@@ -264,6 +275,7 @@ pub const BUILTIN: &[PluginDef] = &[
         shots: &[
             Shot { caption: "Preamp", data: include_bytes!("../assets/pre_1.jpg") },
         ],
+        replaces: &[],
     },
     PluginDef {
         id: "meter",
@@ -287,6 +299,7 @@ pub const BUILTIN: &[PluginDef] = &[
         shots: &[
             Shot { caption: "Overview", data: include_bytes!("../assets/meter_1.jpg") },
         ],
+        replaces: &[],
     },
     PluginDef {
         id: "key",
@@ -309,6 +322,7 @@ pub const BUILTIN: &[PluginDef] = &[
         shots: &[
             Shot { caption: "Overview", data: include_bytes!("../assets/key_1.jpg") },
         ],
+        replaces: &[],
     },
     PluginDef {
         id: "daubiko",
@@ -331,6 +345,7 @@ pub const BUILTIN: &[PluginDef] = &[
         shots: &[
             Shot { caption: "DauBiko", data: include_bytes!("../assets/daubiko_1.jpg") },
         ],
+        replaces: &[],
     },
 ];
 
@@ -575,6 +590,8 @@ struct RemotePlugin {
     features: Vec<String>,
     #[serde(default)]
     shots: Vec<RemoteShot>,
+    #[serde(default)]
+    replaces: Vec<String>,
 }
 #[derive(Deserialize)]
 struct RemoteFile {
@@ -633,6 +650,12 @@ pub fn plugins() -> &'static [PluginDef] {
             let old = list.iter().position(|d| d.id == r.id);
             let tags: Vec<&'static str> = r.tags.into_iter().map(leak).collect();
             let features: Vec<&'static str> = r.features.into_iter().map(leak).collect();
+            let mut replaces: Vec<&'static str> = r.replaces.into_iter().map(leak).collect();
+            if replaces.is_empty() {
+                if let Some(i) = old {
+                    replaces = list[i].replaces.to_vec();
+                }
+            }
             let shots = if shots.is_empty() { old.map(|i| list[i].shots.to_vec()).unwrap_or_default() } else { shots };
             let def = PluginDef {
                 id: leak(r.id),
@@ -646,6 +669,7 @@ pub fn plugins() -> &'static [PluginDef] {
                 long: leak(r.long),
                 features: Box::leak(features.into_boxed_slice()),
                 shots: Box::leak(shots.into_boxed_slice()),
+                replaces: Box::leak(replaces.into_boxed_slice()),
             };
             match old {
                 Some(i) => list[i] = def,

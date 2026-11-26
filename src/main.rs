@@ -119,7 +119,8 @@ impl App {
     pub fn refresh_disk(&mut self) {
         let dir = self.settings.dir();
         for (i, def) in plugins().iter().enumerate() {
-            self.states[i].on_disk = bundle_path(&dir, def).exists();
+            // an older name on disk counts too: the user gets an update, not a second install
+            self.states[i].on_disk = bundle_path(&dir, def).exists() || def.replaces.iter().any(|b| dir.join(b).exists());
         }
     }
 
