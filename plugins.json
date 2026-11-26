@@ -101,7 +101,9 @@
         "Per-band Stereo / Left / Right / Mid / Side",
         "Analyzer: pre / post / side chain, range, resolution, speed, tilt, freeze, spectrum grab, collisions, EQ match",
         "EQ Sketch, piano display, A/B, undo / redo",
-        "Character (Clean / Subtle / Warm), auto gain, gain scale, output gain / pan / phase"
+        "Character (Clean / Subtle / Warm), auto gain, gain scale, output gain / pan / phase",
+        "Spectrum grab with peak labels, permanent grab, frequency zoom, frequency / note under the mouse",
+        "Ctrl+Z / Alt+Z undo, knobs take typed values, frequencies as notes (A4, C#2+13)"
       ],
       "shots": [
         {
@@ -109,11 +111,11 @@
           "url": "assets/eq_1.jpg"
         },
         {
-          "caption": "Hover a dot for quick buttons and values",
+          "caption": "Spectrum grab: rest on the spectrum, drag a peak",
           "url": "assets/eq_2.jpg"
         },
         {
-          "caption": "Dynamic EQ: threshold, attack, release, trigger",
+          "caption": "Frequency zoom: drag the scale",
           "url": "assets/eq_3.jpg"
         }
       ]
