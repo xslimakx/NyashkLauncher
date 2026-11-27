@@ -1,3 +1,7 @@
+# Nyashk Launcher v1.1.4
+
+- SyntiTyzer оновлюється з нового репозиторію `xslimakx/SyntiTyzer` (колишній NyashkSynth).
+
 # Nyashk Launcher v1.1.3
 
 - NyashkSynth тепер називається **SyntiTyzer**: новий бандл `SyntiTyzer.vst3`, нові фото й опис (зокрема теми з картинками). Якщо в тебе стоїть старий `NyashkSynth.vst3`, лаунчер показує оновлення і при встановленні прибирає старий бандл, щоб у DAW не було двох копій одного плагіна. Старі проєкти відкриваються з SyntiTyzer.

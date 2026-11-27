@@ -54,7 +54,7 @@ pub const BUILTIN: &[PluginDef] = &[
     PluginDef {
         id: "synth",
         name: "SyntiTyzer",
-        repo: "xslimakx/NyashkSynth",
+        repo: "xslimakx/SyntiTyzer",
         bundle: "SyntiTyzer.vst3",
         category: Category::Instrument,
         tagline: "Wavetable synthesizer",
